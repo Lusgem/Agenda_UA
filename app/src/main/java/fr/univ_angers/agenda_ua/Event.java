@@ -17,6 +17,7 @@ public class Event {
     private String _description;
     private Date _date_stamp;
     private String _remarque; // Dans description
+    private int _id;
 
     public static Date convert_date(String _date){
         DateFormat utcFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
