@@ -10,6 +10,7 @@ import android.util.Log;
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+    // test
     // Nom de ma table
     public static final String TABLE_EVENTS = "events";
 
