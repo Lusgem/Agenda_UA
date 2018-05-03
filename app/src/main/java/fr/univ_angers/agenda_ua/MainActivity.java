@@ -17,13 +17,13 @@ import java.util.concurrent.ExecutionException;
 
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
 
-public class MainActivity extends AppCompatActivity implements ICSAsyncTask.CalendrierConsumer {
+public class MainActivity extends AppCompatActivity {
 
 
     private final static String TAG = Activity.class.getName();
 
     private EditText _etLinkMain;
-    private Button _clickMain;
+
     private ArrayList<Event> _events;
     private EventsDataSource _datasource;
 
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.Cale
         Log.i(TAG, "MainActivity onCreate");
 
         _etLinkMain = (EditText) findViewById(R.id.et_link_main);
-        _clickMain = (Button) findViewById(R.id.bu_click_main);
 
         this.deleteDatabase("events.db");
         _datasource = new EventsDataSource(this);
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.Cale
     }
 
     public void onClick(View view){
-        final ICSAsyncTask xat = new ICSAsyncTask(this);
+        final ICSAsyncTask xat = new ICSAsyncTask(_datasource);
         String chaine = _etLinkMain.getText().toString();
         System.out.println(chaine.substring(chaine.length()-4));
         chaine = normURL(chaine);
@@ -103,17 +102,16 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.Cale
         else{
             Toast.makeText(this,"Entrez un .ics",Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void onData(View view){
-        for (Event e : _events){
-            _datasource.createEvent(e.get_personnel(), e.get_location(), e.get_matiere(), e.get_groupe(), e.get_summary(), e.get_date_debut(), e.get_date_fin(), e.get_description(), e.get_date_stamp(), e.get_remarque());
-        }
-    }
+        _events = _datasource.getAllEvents();
 
-    @Override
-    public void setArrayEvent(ArrayList<Event> arrayEvent) {
-        _events = arrayEvent;
+        /*for (Event e : _events){
+            System.out.println(e.toString());
+        }*/
+
+        System.out.println(_events.get(0));
+        _datasource.deleteEvent(_events.get(0));
     }
 }

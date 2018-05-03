@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:onClick="onClick"
-        android:text="Lecture du fichier sur le net" />
+        android:text="Lecture du fichier sur le net + met dans db" />
 
     <Button
         android:id="@+id/bu_click_test"
@@ -41,6 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:onClick="onData"
-        android:text="Mettre dans la base de donnée" />
+        android:text="Affiche les données" />
 
 </LinearLayout>

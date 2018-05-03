@@ -22,7 +22,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SUMMARY = "summary";
     public static final String COLUMN_DATE_DEB = "dateDeb";
     public static final String COLUMN_DATE_FIN = "dateFin";
-    public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_DATE_STAMP = "dateStamp";
     public static final String COLUMN_REMARQUE = "remarque";
 
@@ -39,7 +38,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_SUMMARY + ", "
             + COLUMN_DATE_DEB + ", "
             + COLUMN_DATE_FIN + ", "
-            + COLUMN_DESCRIPTION + ", "
             + COLUMN_DATE_STAMP + ", "
             + COLUMN_REMARQUE + ");";
 

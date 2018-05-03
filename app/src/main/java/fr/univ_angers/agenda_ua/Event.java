@@ -14,12 +14,8 @@ public class Event {
     private String _matiere; // Dans la description
     private String _groupe; // Dans la description
     private String _summary; // Exemple : TP - Programmation orientée objet en C++
-    //private Date _date_debut;
     private String _date_debut;
-    //private Date _date_fin;
     private String _date_fin;
-    private String _description;
-    //private Date _date_stamp;
     private String _date_stamp;
     private String _remarque; // Dans la description
 
@@ -47,9 +43,6 @@ public class Event {
     }
     public String get_date_fin() {
         return _date_fin;
-    }
-    public String get_description() {
-        return _description;
     }
     public String get_date_stamp() {
         return _date_stamp;
@@ -83,9 +76,6 @@ public class Event {
     public void set_date_fin(String _date_fin) {
         this._date_fin = _date_fin;
     }
-    public void set_description(String _description) {
-        this._description = _description;
-    }
     public void set_date_stamp(String _date_stamp) {
         this._date_stamp = _date_stamp;
     }
@@ -112,7 +102,6 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Date debut : "+_date_debut+"\nDate fin : "+_date_fin+
-                "\nDescription :\n"+_description;
+        return "Prof -> " + _personnel + " Matiere -> " + _matiere + " Groupe -> " + _groupe;
     }
 }

@@ -20,24 +20,32 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
 
-public class ICSAsyncTask extends android.os.AsyncTask<String, Void, ArrayList<Event>> {
-    interface CalendrierConsumer{
-        void setArrayEvent(ArrayList<Event> arrayEvent);
-    }
+
+public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
 
     private final static String TAG = Activity.class.getName();
 
-    private CalendrierConsumer m_consumer;
-    private ArrayList<Event> m_events;
+    private String _dateDebut;
+    private String _dateFin;
+    private String _summary;
+    private String _dateStamp;
+    private String _location;
+    private String _matiere;
+    private String _personnel;
+    private String _groupe;
+    private String _remarque;
 
-    public ICSAsyncTask(CalendrierConsumer consumer){
-        m_consumer = consumer;
-        m_events = new ArrayList<>();
+    private EventsDataSource _datasource;
+
+
+    public ICSAsyncTask(EventsDataSource dataSource){
+        _datasource = dataSource;
     }
 
     @Override
-    protected ArrayList<Event> doInBackground(String ... strings) {
+    protected Void doInBackground(String ... strings) {
         try {
             URL url = new URL(strings[0]);
             Log.e(TAG, url.toString());
@@ -52,49 +60,41 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, ArrayList<E
             for (Iterator i = cal.getComponents().iterator(); i.hasNext();) {
                 Component component = (Component) i.next();
                 if(component.getName()=="VEVENT") {
-                    //System.out.println("EVENT :");
-                    Event e = new Event();
                     for (Iterator j = component.getProperties().iterator(); j.hasNext(); ) {
                         Property property = (Property) j.next();
 
                         if (property.getName()=="DTSTART") {
-                            //e.set_date_debut(e.convert_date(property.getValue()));
-                            e.set_date_debut(property.getValue());
+                            _dateDebut = property.getValue();
                         }
                         else if (property.getName()=="DTEND"){
-                            //e.set_date_fin(e.convert_date(property.getValue()));
-                            e.set_date_fin(property.getValue());
+                            _dateFin = property.getValue();
                         }
                         else if (property.getName()=="DTSTAMP") {
-                            //e.set_date_stamp(e.convert_date(property.getValue()));
-                            e.set_date_stamp(property.getValue());
+                            _dateStamp = property.getValue();
                         }
                         else if (property.getName()=="SUMMARY"){
-                            e.set_summary(property.getValue());
+                            _summary = property.getValue();
                         }
                         else if (property.getName()=="LOCATION"){
-                            e.set_location(property.getValue());
+                            _location = property.getValue();
                         }
                         else if (property.getName()=="DESCRIPTION"){
                             String tab[] = property.getValue().split("\n");
-                            e.set_description(property.getValue());
                             for (int k=0;k<tab.length;k++){
                                 if (tab[k].substring(0,7).equalsIgnoreCase("matière"))
-                                    e.set_matiere(tab[k].substring(10));
+                                    _matiere = tab[k].substring(10);
                                 else if (tab[k].substring(0,9).equalsIgnoreCase("personnel"))
-                                    e.set_personnel(tab[k].substring(12));
+                                    _personnel = tab[k].substring(12);
                                 else if (tab[k].substring(0,6).equalsIgnoreCase("groupe"))
-                                    e.set_groupe(tab[k].substring(9));
+                                    _groupe = tab[k].substring(9);
                                 else if (tab[k].substring(0,9).equalsIgnoreCase("remarques"))
-                                    e.set_remarque(tab[k].substring(12));
+                                    _remarque = tab[k].substring(12);
                             }
                         }
                     }
-                    //System.out.println(e.to_string());
-                    m_events.add(e);
+                    _datasource.createEvent(_personnel,_location,_matiere,_groupe,_summary,_dateDebut,_dateFin,_dateStamp,_remarque);
                 }
             }
-            return m_events;
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -106,11 +106,12 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, ArrayList<E
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Event> events) {
-        Log.e(TAG, "Finished");
-        for(Event e : m_events){
+    protected void onPreExecute() {
+        Log.e(TAG, "Start");
+    }
 
-        }
-        m_consumer.setArrayEvent(events);
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        Log.e(TAG, "Finished");
     }
 }

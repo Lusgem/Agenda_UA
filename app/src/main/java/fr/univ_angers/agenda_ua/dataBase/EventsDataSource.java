@@ -15,8 +15,8 @@ import fr.univ_angers.agenda_ua.Event;
  */
 public class EventsDataSource {
 
-    private SQLiteDatabase m_database;
-    private MySQLiteHelper m_dbHelper;
+    private SQLiteDatabase _database;
+    private MySQLiteHelper _dbHelper;
     private String[] allColumns = {
             MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_PERSONNEL,
@@ -26,24 +26,23 @@ public class EventsDataSource {
             MySQLiteHelper.COLUMN_SUMMARY,
             MySQLiteHelper.COLUMN_DATE_DEB,
             MySQLiteHelper.COLUMN_DATE_FIN,
-            MySQLiteHelper.COLUMN_DESCRIPTION,
             MySQLiteHelper.COLUMN_DATE_STAMP,
             MySQLiteHelper.COLUMN_REMARQUE
     };
 
     public EventsDataSource(Context context){
-        m_dbHelper = new MySQLiteHelper(context);
+        _dbHelper = new MySQLiteHelper(context);
     }
 
     public void open() throws SQLException{
-        m_database = m_dbHelper.getWritableDatabase();
+        _database = _dbHelper.getWritableDatabase();
     }
 
     public void close(){
-        m_dbHelper.close();
+        _dbHelper.close();
     }
 
-    public Event createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String description, String dateStamp, String remarque){
+    public Event createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_PERSONNEL, personnel);
         values.put(MySQLiteHelper.COLUMN_LOCATION, location);
@@ -52,11 +51,10 @@ public class EventsDataSource {
         values.put(MySQLiteHelper.COLUMN_SUMMARY, summary);
         values.put(MySQLiteHelper.COLUMN_DATE_DEB, dateDeb);
         values.put(MySQLiteHelper.COLUMN_DATE_FIN, dateFin);
-        values.put(MySQLiteHelper.COLUMN_DESCRIPTION, description);
         values.put(MySQLiteHelper.COLUMN_DATE_STAMP, dateStamp);
         values.put(MySQLiteHelper.COLUMN_REMARQUE, remarque);
-        long insertId = m_database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
-        Cursor cursor = m_database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
+        long insertId = _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
+        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         Event newEvent = cursorToEvent(cursor);
         cursor.close();
@@ -66,12 +64,12 @@ public class EventsDataSource {
     public void deleteEvent(Event event){
         long id = event.get_id();
         System.out.println("Event deleted with id : " + id);
-        m_database.delete(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+        _database.delete(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
     }
 
     public ArrayList<Event> getAllEvents(){
         ArrayList<Event> events = new ArrayList<>();
-        Cursor cursor = m_database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, null);
+        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, null);
 
         // Parcour du curseur !
         cursor.moveToFirst();
@@ -96,9 +94,8 @@ public class EventsDataSource {
         event.set_summary(cursor.getString(5));
         event.set_date_debut(cursor.getString(6));
         event.set_date_fin(cursor.getString(7));
-        event.set_description(cursor.getString(8));
-        event.set_date_stamp(cursor.getString(9));
-        event.set_remarque(cursor.getString(10));
+        event.set_date_stamp(cursor.getString(8));
+        event.set_remarque(cursor.getString(9));
         return event;
     }
 }
