@@ -22,30 +22,33 @@ import java.util.Iterator;
 
 
 public class ICSAsyncTask extends android.os.AsyncTask<String, Void, ArrayList<Event>> {
+    interface CalendrierConsumer{
+        void setArrayEvent(ArrayList<Event> arrayEvent);
+    }
+
     private final static String TAG = Activity.class.getName();
 
-    private Context m_context;
+    private CalendrierConsumer m_consumer;
+    private ArrayList<Event> m_events;
 
-
-
-    public ICSAsyncTask(Context context){
-        m_context = context;
+    public ICSAsyncTask(CalendrierConsumer consumer){
+        m_consumer = consumer;
+        m_events = new ArrayList<>();
     }
 
     @Override
     protected ArrayList<Event> doInBackground(String ... strings) {
-        URL url;
-        InputStream is = null;
-        ArrayList<Event> _events = new ArrayList<>();
-        System.out.println(strings[0]);
-        Calendar cal = null;
         try {
-            url = new URL(strings[0]);
-            System.out.println(url.toString());
+            URL url = new URL(strings[0]);
+            Log.e(TAG, url.toString());
+
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            is = connection.getInputStream();
+
+            InputStream is = connection.getInputStream();
+
             CalendarBuilder bld = new CalendarBuilder();
-            cal = bld.build(is);
+            Calendar cal = bld.build(is);
+
             for (Iterator i = cal.getComponents().iterator(); i.hasNext();) {
                 Component component = (Component) i.next();
                 if(component.getName()=="VEVENT") {
@@ -55,13 +58,16 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, ArrayList<E
                         Property property = (Property) j.next();
 
                         if (property.getName()=="DTSTART") {
-                            e.set_date_debut(e.convert_date(property.getValue()));
+                            //e.set_date_debut(e.convert_date(property.getValue()));
+                            e.set_date_debut(property.getValue());
                         }
                         else if (property.getName()=="DTEND"){
-                            e.set_date_fin(e.convert_date(property.getValue()));
+                            //e.set_date_fin(e.convert_date(property.getValue()));
+                            e.set_date_fin(property.getValue());
                         }
                         else if (property.getName()=="DTSTAMP") {
-                            e.set_date_stamp(e.convert_date(property.getValue()));
+                            //e.set_date_stamp(e.convert_date(property.getValue()));
+                            e.set_date_stamp(property.getValue());
                         }
                         else if (property.getName()=="SUMMARY"){
                             e.set_summary(property.getValue());
@@ -82,29 +88,29 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, ArrayList<E
                                 else if (tab[k].substring(0,9).equalsIgnoreCase("remarques"))
                                     e.set_remarque(tab[k].substring(12));
                             }
-
                         }
                     }
-                    System.out.println(e.to_string());
-                    _events.add(e);
+                    //System.out.println(e.to_string());
+                    m_events.add(e);
                 }
             }
-
-            return _events;
+            return m_events;
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Toast.makeText(m_context,"URL invalide",Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParserException e) {
             e.printStackTrace();
         }
-        return _events;
+        return null;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Event> events) {
         Log.e(TAG, "Finished");
+        for(Event e : m_events){
 
+        }
+        m_consumer.setArrayEvent(events);
     }
 }

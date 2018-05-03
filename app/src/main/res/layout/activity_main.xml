@@ -33,22 +33,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:onClick="onClick"
-        android:text="@string/bu_text_main" />
+        android:text="Lecture du fichier sur le net" />
 
-    <TextView
-        android:id="@+id/textView1"
+    <Button
+        android:id="@+id/bu_click_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="25dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="25dp"
-        android:text="TextView" />
+        android:layout_margin="50dp"
+        android:onClick="onData"
+        android:text="Mettre dans la base de donnée" />
 
 </LinearLayout>

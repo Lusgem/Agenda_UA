@@ -1,4 +1,4 @@
-package fr.univ_angers.agenda_ua;
+package fr.univ_angers.agenda_ua.dataBase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +10,6 @@ import android.util.Log;
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
-    // te
     // Nom de ma table
     public static final String TABLE_EVENTS = "events";
 
@@ -32,15 +31,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Commande sql pour la création de la base de données
     private static final String DATABASE_CREATE = "create table " + TABLE_EVENTS + "("
-            + COLUMN_PERSONNEL + " integer primary key autoincrement, "
-            + COLUMN_LOCATION
-            + COLUMN_MATIERE
-            + COLUMN_GROUPE
-            + COLUMN_SUMMARY
-            + COLUMN_DATE_DEB
-            + COLUMN_DATE_FIN
-            + COLUMN_DESCRIPTION
-            + COLUMN_DATE_STAMP
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_PERSONNEL + ", "
+            + COLUMN_LOCATION + ", "
+            + COLUMN_MATIERE + ", "
+            + COLUMN_GROUPE + ", "
+            + COLUMN_SUMMARY + ", "
+            + COLUMN_DATE_DEB + ", "
+            + COLUMN_DATE_FIN + ", "
+            + COLUMN_DESCRIPTION + ", "
+            + COLUMN_DATE_STAMP + ", "
             + COLUMN_REMARQUE + ");";
 
     public MySQLiteHelper(Context context) {
