@@ -115,7 +115,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {
-                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.FRANCE);
                 String weekday = weekdayNameFormat.format(date.getTime());
                 SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
 
@@ -129,7 +129,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
             @Override
             public String interpretTime(int hour) {
-                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                return hour + " H";
+                /*> 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM")*/
             }
         });
     }
