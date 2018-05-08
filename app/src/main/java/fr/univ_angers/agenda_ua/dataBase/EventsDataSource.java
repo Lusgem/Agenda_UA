@@ -43,7 +43,9 @@ public class EventsDataSource {
     }
 
     public Event createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
+        // Créer un pseudo objet
         ContentValues values = new ContentValues();
+        // Lui ajoute des valeurs sous forme de cle / attribut
         values.put(MySQLiteHelper.COLUMN_PERSONNEL, personnel);
         values.put(MySQLiteHelper.COLUMN_LOCATION, location);
         values.put(MySQLiteHelper.COLUMN_MATIERE, matiere);
@@ -53,6 +55,7 @@ public class EventsDataSource {
         values.put(MySQLiteHelper.COLUMN_DATE_FIN, dateFin);
         values.put(MySQLiteHelper.COLUMN_DATE_STAMP, dateStamp);
         values.put(MySQLiteHelper.COLUMN_REMARQUE, remarque);
+
         long insertId = _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
         Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
@@ -84,6 +87,7 @@ public class EventsDataSource {
         return events;
     }
 
+    // Créer l'objet event après l'ajout dans la db ou au moment de renvoyer toute la liste
     private Event cursorToEvent(Cursor cursor){
         Event event = new Event();
         event.set_id(cursor.getLong(0));

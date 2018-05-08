@@ -31,7 +31,7 @@
         android:id="@+id/bu_click_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="20dp"
         android:onClick="onClick"
         android:text="Lecture du fichier sur le net + met dans db" />
 
@@ -39,7 +39,7 @@
         android:id="@+id/bu_click_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="20dp"
         android:onClick="onData"
         android:text="Affiche les données" />
 
