@@ -47,15 +47,15 @@ public class BasicActivity extends WeekView {
         events.add(event);
 
         startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.HOUR_OF_DAY, 16);
         startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth-1);
+        startTime.set(Calendar.MONTH, 4);
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 4);
+        endTime.set(Calendar.HOUR_OF_DAY, 17);
         endTime.set(Calendar.MINUTE, 30);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(10, _events.get(0).get_summary(), startTime, endTime);
+        endTime.set(Calendar.MONTH, 4);
+        event = new WeekViewEvent(2, _events.get(15).get_summary(), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_02));
         events.add(event);
 
