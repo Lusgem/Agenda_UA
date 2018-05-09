@@ -84,7 +84,7 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
                                 if (tab[k].substring(0,7).equalsIgnoreCase("matière"))
                                     _matiere = tab[k].substring(10);
                                 else if (tab[k].substring(0,9).equalsIgnoreCase("personnel"))
-                                    _personnel = tab[k].substring(12);
+                                    _personnel = tab[k].substring(11);
                                 else if (tab[k].substring(0,6).equalsIgnoreCase("groupe"))
                                     _groupe = tab[k].substring(9);
                                 else if (tab[k].substring(0,9).equalsIgnoreCase("remarques"))

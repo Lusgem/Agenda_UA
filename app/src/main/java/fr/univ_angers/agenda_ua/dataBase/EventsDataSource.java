@@ -84,7 +84,27 @@ public class EventsDataSource {
 
         // Fermeture du curseur !
         cursor.close();
+        getMatieres();
         return events;
+    }
+
+    public ArrayList<String> getMatieres(){
+        ArrayList<String> matieres = new ArrayList<>();
+        Cursor cursor = _database.query(true,MySQLiteHelper.TABLE_EVENTS, new String[]{MySQLiteHelper.COLUMN_MATIERE},null,null,null,null,null,null); //query(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_MATIERE, null, null, null, null, null);
+
+        // Parcour du curseur !
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            String matiere = cursor.getString(0);
+            matieres.add(matiere);
+            cursor.moveToNext();
+        }
+
+        // Fermeture du curseur !
+        cursor.close();
+        for (String m : matieres)
+        System.out.println(m);
+        return matieres;
     }
 
     // Créer l'objet event après l'ajout dans la db ou au moment de renvoyer toute la liste
