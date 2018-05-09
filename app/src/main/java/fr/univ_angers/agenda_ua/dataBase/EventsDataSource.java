@@ -102,8 +102,6 @@ public class EventsDataSource {
 
         // Fermeture du curseur !
         cursor.close();
-        for (String m : matieres)
-        System.out.println(m);
         return matieres;
     }
 

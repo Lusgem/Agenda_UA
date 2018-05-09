@@ -26,7 +26,6 @@ public class BasicActivity extends WeekView {
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> events = new ArrayList<>();
-
         _datasource = new EventsDataSource(this);
         _datasource.open();
 
