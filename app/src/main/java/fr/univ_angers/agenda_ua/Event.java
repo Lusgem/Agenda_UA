@@ -156,18 +156,18 @@ public class Event {
     }
     public void set_date_debut(String _date_debut) {
         Date _date = convert_date(_date_debut);
-        _jour_debut = _date.getDay();
+        _jour_debut = _date.getDate(); // getDate pour le jour du mois
         _mois_debut = _date.getMonth();
-        _annee_debut = _date.getYear();
+        _annee_debut = _date.getYear()+1900; // +1900 pour avoir l'année réelle
         _heure_debut = _date.getHours();
         _minute_debut = _date.getMinutes();
         this._date_debut = _date_debut;
     }
     public void set_date_fin(String _date_fin) {
         Date _date = convert_date(_date_fin);
-        _jour_fin = _date.getDay();
+        _jour_fin = _date.getDate(); // getDate pour le jour du mois
         _mois_fin = _date.getMonth();
-        _annee_fin = _date.getYear();
+        _annee_fin = _date.getYear()+1900; // +1900 pour avoir l'année réelle
         _heure_fin = _date.getHours();
         _minute_fin = _date.getMinutes();
         this._date_fin = _date_fin;
