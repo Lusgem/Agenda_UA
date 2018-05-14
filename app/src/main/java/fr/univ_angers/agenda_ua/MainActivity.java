@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
@@ -123,11 +124,15 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println(_events.get(0));
         _datasource.deleteEvent(_events.get(0));*/
-
+        getEvents._events = _datasource.getAllEvents();
         Intent WeekView = new Intent(this, BasicActivity.class);
         startActivity(WeekView);
 
         //getCalendar();
+    }
+
+    public ArrayList<Event> getEvents(){
+        return _events;
     }
 
     private void getCalendar() {

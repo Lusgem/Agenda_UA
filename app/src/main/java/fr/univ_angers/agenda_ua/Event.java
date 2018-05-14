@@ -18,80 +18,8 @@ public class Event {
     private String _date_fin;
     private String _date_stamp;
     private String _remarque; // Dans la description
+
     private int _jour_debut;
-
-    public int get_mois_debut() {
-        return _mois_debut;
-    }
-
-    public void set_mois_debut(int _mois_debut) {
-        this._mois_debut = _mois_debut;
-    }
-
-    public int get_annee_debut() {
-        return _annee_debut;
-    }
-
-    public void set_annee_debut(int _annee_debut) {
-        this._annee_debut = _annee_debut;
-    }
-
-    public int get_jour_fin() {
-        return _jour_fin;
-    }
-
-    public void set_jour_fin(int _jour_fin) {
-        this._jour_fin = _jour_fin;
-    }
-
-    public int get_mois_fin() {
-        return _mois_fin;
-    }
-
-    public void set_mois_fin(int _mois_fin) {
-        this._mois_fin = _mois_fin;
-    }
-
-    public int get_annee_fin() {
-        return _annee_fin;
-    }
-
-    public void set_annee_fin(int _annee_fin) {
-        this._annee_fin = _annee_fin;
-    }
-
-    public int get_heure_debut() {
-        return _heure_debut;
-    }
-
-    public void set_heure_debut(int _heure_debut) {
-        this._heure_debut = _heure_debut;
-    }
-
-    public int get_heure_fin() {
-        return _heure_fin;
-    }
-
-    public void set_heure_fin(int _heure_fin) {
-        this._heure_fin = _heure_fin;
-    }
-
-    public int get_minute_debut() {
-        return _minute_debut;
-    }
-
-    public void set_minute_debut(int _minute_debut) {
-        this._minute_debut = _minute_debut;
-    }
-
-    public int get_minute_fin() {
-        return _minute_fin;
-    }
-
-    public void set_minute_fin(int _minute_fin) {
-        this._minute_fin = _minute_fin;
-    }
-
     private int _mois_debut;
     private int _annee_debut;
     private int _jour_fin;
@@ -101,7 +29,6 @@ public class Event {
     private int _heure_fin;
     private int _minute_debut;
     private int _minute_fin;
-
 
     // GETTER
     public Long get_id() {
@@ -134,6 +61,37 @@ public class Event {
     public String get_remarque() {
         return _remarque;
     }
+    public int get_minute_fin() {
+        return _minute_fin;
+    }
+    public int get_minute_debut() {
+        return _minute_debut;
+    }
+    public int get_heure_fin() {
+        return _heure_fin;
+    }
+    public int get_heure_debut() {
+        return _heure_debut;
+    }
+    public int get_annee_fin() {
+        return _annee_fin;
+    }
+    public int get_annee_debut() {
+        return _annee_debut;
+    }
+    public int get_mois_fin() {
+        return _mois_fin;
+    }
+    public int get_mois_debut() {
+        return _mois_debut;
+    }
+    public int get_jour_fin() {
+        return _jour_fin;
+    }
+    public int get_jour_debut() {
+        return _jour_debut;
+    }
+
 
     // SETTER
     public void set_id(Long _id) {
@@ -154,23 +112,54 @@ public class Event {
     public void set_summary(String _summary) {
         this._summary = _summary;
     }
-    public void set_date_debut(String _date_debut) {
-        Date _date = convert_date(_date_debut);
-        _jour_debut = _date.getDate(); // getDate pour le jour du mois
+    public void set_mois_debut(int _mois_debut) {
+        this._mois_debut = _mois_debut;
+    }
+    public void set_annee_debut(int _annee_debut) {
+        this._annee_debut = _annee_debut;
+    }
+    public void set_jour_fin(int _jour_fin) {
+        this._jour_fin = _jour_fin;
+    }
+    public void set_mois_fin(int _mois_fin) {
+        this._mois_fin = _mois_fin;
+    }
+    public void set_annee_fin(int _annee_fin) {
+        this._annee_fin = _annee_fin;
+    }
+    public void set_heure_debut(int _heure_debut) {
+        this._heure_debut = _heure_debut;
+    }
+    public void set_heure_fin(int _heure_fin) {
+        this._heure_fin = _heure_fin;
+    }
+    public void set_minute_debut(int _minute_debut) {
+        this._minute_debut = _minute_debut;
+    }
+    public void set_minute_fin(int _minute_fin) {
+        this._minute_fin = _minute_fin;
+    }
+    public void set_jour_debut(int _jour_debut) {
+        this._jour_debut = _jour_debut;
+    }
+
+    public void set_date_debut(String date_debut) {
+        Date _date = convert_date(date_debut);
+        _jour_debut = _date.getDate();
         _mois_debut = _date.getMonth();
-        _annee_debut = _date.getYear()+1900; // +1900 pour avoir l'année réelle
+        _annee_debut = _date.getYear() + 1900;
         _heure_debut = _date.getHours();
         _minute_debut = _date.getMinutes();
-        this._date_debut = _date_debut;
+        _date_debut = date_debut;
     }
-    public void set_date_fin(String _date_fin) {
-        Date _date = convert_date(_date_fin);
-        _jour_fin = _date.getDate(); // getDate pour le jour du mois
+    public void set_date_fin(String date_fin) {
+        Date _date = convert_date(date_fin);
+        _jour_fin = _date.getDate();
         _mois_fin = _date.getMonth();
-        _annee_fin = _date.getYear()+1900; // +1900 pour avoir l'année réelle
+        _annee_fin = _date.getYear() + 1900;
         _heure_fin = _date.getHours();
         _minute_fin = _date.getMinutes();
-        this._date_fin = _date_fin;
+        _date_fin = date_fin;
     }
     public void set_date_stamp(String _date_stamp) {
         this._date_stamp = _date_stamp;
@@ -199,13 +188,5 @@ public class Event {
     @Override
     public String toString() {
         return "Prof -> " + _personnel + " Matiere -> " + _matiere + " Groupe -> " + _groupe;
-    }
-
-    public int get_jour_debut() {
-        return _jour_debut;
-    }
-
-    public void set_jour_debut(int _jour_debut) {
-        this._jour_debut = _jour_debut;
     }
 }

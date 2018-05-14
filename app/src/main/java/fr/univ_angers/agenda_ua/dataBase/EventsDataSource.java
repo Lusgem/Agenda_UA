@@ -74,7 +74,7 @@ public class EventsDataSource {
         ArrayList<Event> events = new ArrayList<>();
         Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, null);
 
-        System.out.println(cursor.getCount());
+        //System.out.println(cursor.getCount());
         // Parcour du curseur !
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
