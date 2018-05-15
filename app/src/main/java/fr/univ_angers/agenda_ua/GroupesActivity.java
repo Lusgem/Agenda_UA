@@ -25,7 +25,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
+import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
+import fr.univ_angers.agenda_ua.evenement.Event;
 
 public class GroupesActivity extends AppCompatActivity {
 
@@ -94,7 +97,7 @@ public class GroupesActivity extends AppCompatActivity {
     }
 
     public void onData_Groupes(View view){
-        getEvents._events = _datasource.getAllEvents();
+        GetEvents._events = _datasource.getAllEvents();
         Intent WeekView = new Intent(this, BasicActivity.class);
         startActivity(WeekView);
     }

@@ -68,7 +68,7 @@ public class EventsDataSource {
     public ArrayList<Event> getAllEvents(){
         ArrayList<Event> events = new ArrayList<>();
         String orderBy = MySQLiteHelper.COLUMN_DATE_DEB;
-        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, null);
+        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, orderBy);
 
         //System.out.println(cursor.getCount());
         // Parcour du curseur !
@@ -115,7 +115,6 @@ public class EventsDataSource {
         event.set_date_fin(cursor.getString(7));
         event.set_date_stamp(cursor.getString(8));
         event.set_remarque(cursor.getString(9));
-        System.out.println("Jour : "+event.get_jour_debut());
         return event;
     }
 }

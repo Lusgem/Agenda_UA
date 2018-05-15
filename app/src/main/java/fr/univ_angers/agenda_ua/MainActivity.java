@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
+import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
+import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
+import fr.univ_angers.agenda_ua.evenement.Event;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText _etLinkMain;
 
-    private ArrayList<Event> _events;
     private EventsDataSource _datasource;
 
     @Override
@@ -124,37 +126,13 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println(_events.get(0));
         _datasource.deleteEvent(_events.get(0));*/
-        getEvents._events = _datasource.getAllEvents();
+        GetEvents._events = _datasource.getAllEvents();
         Intent WeekView = new Intent(this, BasicActivity.class);
         startActivity(WeekView);
 
         //getCalendar();
     }
 
-    public ArrayList<Event> getEvents(){
-        return _events;
-    }
-
-    private void getCalendar() {
-        Uri uri = CalendarContract.Events.CONTENT_URI;
-        String[] projection = new String[]{CalendarContract.Events._ID, CalendarContract.Events.TITLE, CalendarContract.Events.EVENT_LOCATION};
-        String selection = CalendarContract.Events.EVENT_LOCATION + " = ?";
-        String[] selectionArgs = new String[]{"LA"};
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, 1);
-        }
-
-        Cursor cursor = getContentResolver().query(uri, projection, selection, selectionArgs, null);
-        System.out.println(cursor.getCount());
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            String s = cursor.getString(1);
-            System.out.println(s);
-            cursor.moveToNext();
-        }
-        cursor.close();
-    }
     public void onClickGroup(View view){
 
         Intent GroupeActivity = new Intent(this, GroupesActivity.class);

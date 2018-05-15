@@ -33,5 +33,6 @@ dependencies {
     /-- Importation de stetho pour visualiser la base de donnée --/
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.github.alamkanak:android-week-view:1.2.6'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'org.jsoup:jsoup:1.11.3'
 }

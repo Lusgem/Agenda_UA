@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
+import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
+import fr.univ_angers.agenda_ua.evenement.Event;
 
 public class BasicActivity extends WeekView {
 
@@ -25,28 +28,21 @@ public class BasicActivity extends WeekView {
 
         System.out.println(newMonth);
         System.out.println(newYear);
-            /*System.out.println(getEvents._events.get(5).get_summary());
-            System.out.println(getEvents._events.get(5).get_jour_debut());
-            System.out.println(getEvents._events.get(5).get_mois_debut());
-            System.out.println(getEvents._events.get(5).get_annee_debut());*/
         int j = 0;
         int test = 0;
-        for (int i = 0 ; i < getEvents._events.size(); i++) {
-            if (newYear == getEvents._events.get(i).get_annee_debut() && newMonth == getEvents._events.get(i).get_mois_debut() + 1) {
+        for (int i = 0; i < GetEvents._events.size(); i++) {
+            if (newYear == GetEvents._events.get(i).get_annee_debut() && newMonth == GetEvents._events.get(i).get_mois_debut() + 1) {
                 Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.DAY_OF_MONTH, getEvents._events.get(i).get_jour_debut());
-                startTime.set(Calendar.HOUR_OF_DAY, getEvents._events.get(i).get_heure_debut());
-                startTime.set(Calendar.MINUTE, getEvents._events.get(i).get_minute_debut());
-                startTime.set(Calendar.MONTH, getEvents._events.get(i).get_mois_debut());
-                startTime.set(Calendar.YEAR, getEvents._events.get(i).get_annee_debut());
+                startTime.set(Calendar.DAY_OF_MONTH, GetEvents._events.get(i).get_jour_debut());
+                startTime.set(Calendar.HOUR_OF_DAY, GetEvents._events.get(i).get_heure_debut());
+                startTime.set(Calendar.MINUTE, GetEvents._events.get(i).get_minute_debut());
+                startTime.set(Calendar.MONTH, GetEvents._events.get(i).get_mois_debut());
+                startTime.set(Calendar.YEAR, GetEvents._events.get(i).get_annee_debut());
                 Calendar endTime = (Calendar) startTime.clone();
-                //startTime.set(Calendar.DAY_OF_MONTH, getEvents._events.get(i).get_jour_fin());
-                endTime.set(Calendar.HOUR_OF_DAY, getEvents._events.get(i).get_heure_fin());
-                //endTime.set(Calendar.MINUTE, getEvents._events.get(i).get_heure_fin());
-                //endTime.set(Calendar.MONTH, getEvents._events.get(i).get_mois_fin() - 1);
-                //endTime.set(Calendar.YEAR, getEvents._events.get(i).get_annee_fin());
+                endTime.set(Calendar.HOUR_OF_DAY, GetEvents._events.get(i).get_heure_fin());
+                endTime.set(Calendar.MINUTE, GetEvents._events.get(i).get_minute_fin());
 
-                WeekViewEvent event = new WeekViewEvent(i, getEvents._events.get(i).get_summary() ,getEvents._events.get(i).get_location(), startTime, endTime);
+                WeekViewEvent event = new WeekViewEvent(i, GetEvents._events.get(i).get_summary(), GetEvents._events.get(i).get_location(), startTime, endTime);
                 event.setColor(getResources().getColor(R.color.event_color_01));
                 events.add(event);
 
