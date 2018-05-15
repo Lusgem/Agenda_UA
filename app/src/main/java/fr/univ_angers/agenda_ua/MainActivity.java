@@ -155,4 +155,11 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
     }
+    public void onClickGroup(View view){
+
+        Intent GroupeActivity = new Intent(this, GroupesActivity.class);
+        startActivity(GroupeActivity);
+
+
+    }
 }

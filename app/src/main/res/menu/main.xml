@@ -21,5 +21,7 @@
             android:title="@string/action_week_view"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
+
     </group>
+
 </menu>

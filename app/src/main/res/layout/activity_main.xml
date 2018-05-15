@@ -43,4 +43,11 @@
         android:onClick="onData"
         android:text="Affiche les données" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Obtenir les groupes"
+        android:onClick="onClickGroup"/>
+
 </LinearLayout>

@@ -101,6 +101,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                 }
                 return true;
+
+                
         }
 
         return super.onOptionsItemSelected(item);

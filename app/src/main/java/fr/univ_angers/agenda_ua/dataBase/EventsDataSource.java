@@ -119,6 +119,7 @@ public class EventsDataSource {
         event.set_date_fin(cursor.getString(7));
         event.set_date_stamp(cursor.getString(8));
         event.set_remarque(cursor.getString(9));
+        System.out.println("Jour : "+event.get_jour_debut());
         return event;
     }
 }
