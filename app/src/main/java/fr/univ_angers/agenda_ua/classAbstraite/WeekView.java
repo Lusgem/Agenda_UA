@@ -1,4 +1,4 @@
-package fr.univ_angers.agenda_ua;
+package fr.univ_angers.agenda_ua.classAbstraite;
 
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import com.alamkanak.weekview.WeekViewEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import fr.univ_angers.agenda_ua.R;
 
 
 public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, com.alamkanak.weekview.WeekView.EventLongPressListener, com.alamkanak.weekview.WeekView.EmptyViewLongPressListener {

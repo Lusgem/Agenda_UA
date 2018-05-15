@@ -1,4 +1,4 @@
-package fr.univ_angers.agenda_ua;
+package fr.univ_angers.agenda_ua.evenement;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -142,6 +142,12 @@ public class Event {
     public void set_jour_debut(int _jour_debut) {
         this._jour_debut = _jour_debut;
     }
+    public void set_date_stamp(String _date_stamp) {
+        this._date_stamp = _date_stamp;
+    }
+    public void set_remarque(String _remarque) {
+        this._remarque = _remarque;
+    }
 
     public void set_date_debut(String date_debut) {
         Date _date = convert_date(date_debut);
@@ -160,12 +166,6 @@ public class Event {
         _heure_fin = _date.getHours();
         _minute_fin = _date.getMinutes();
         _date_fin = date_fin;
-    }
-    public void set_date_stamp(String _date_stamp) {
-        this._date_stamp = _date_stamp;
-    }
-    public void set_remarque(String _remarque) {
-        this._remarque = _remarque;
     }
 
     public static Date convert_date(String _date){

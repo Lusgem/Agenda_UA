@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import fr.univ_angers.agenda_ua.Event;
+import fr.univ_angers.agenda_ua.evenement.Event;
 
 /**
  * Created by Thibault Condemine on 26/04/2018.
@@ -42,7 +42,7 @@ public class EventsDataSource {
         _dbHelper.close();
     }
 
-    public Event createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
+    public void createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
         // Créer un pseudo objet
         ContentValues values = new ContentValues();
         // Lui ajoute des valeurs sous forme de cle / attribut
@@ -56,12 +56,7 @@ public class EventsDataSource {
         values.put(MySQLiteHelper.COLUMN_DATE_STAMP, dateStamp);
         values.put(MySQLiteHelper.COLUMN_REMARQUE, remarque);
 
-        long insertId = _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
-        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Event newEvent = cursorToEvent(cursor);
-        cursor.close();
-        return newEvent;
+        _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
     }
 
     public void deleteEvent(Event event){
@@ -72,6 +67,7 @@ public class EventsDataSource {
 
     public ArrayList<Event> getAllEvents(){
         ArrayList<Event> events = new ArrayList<>();
+        String orderBy = MySQLiteHelper.COLUMN_DATE_DEB;
         Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, null);
 
         //System.out.println(cursor.getCount());

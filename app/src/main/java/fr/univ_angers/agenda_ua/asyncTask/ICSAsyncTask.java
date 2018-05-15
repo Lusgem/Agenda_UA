@@ -1,9 +1,7 @@
-package fr.univ_angers.agenda_ua;
+package fr.univ_angers.agenda_ua.asyncTask;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
@@ -17,7 +15,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
