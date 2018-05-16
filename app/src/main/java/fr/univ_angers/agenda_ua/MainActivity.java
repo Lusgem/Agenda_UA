@@ -127,8 +127,6 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     }
 
     public void onClickGroups(View view){
-        //Suppression de la base de données
-        this.deleteDatabase("events.db");
         final ICSAsyncTask xat = new ICSAsyncTask(_datasource, this);
         String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
         xat.execute(url);
@@ -143,12 +141,12 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     @Override
     public void onPreExecute() {
         updateUIAvantTache();
+        //Suppression de la base de données
+        _datasource.deleteEvent();
     }
 
     @Override
-    public void doInBackground() {
-
-    }
+    public void doInBackground() {}
 
     @Override
     public void onPostExecute() {

@@ -59,10 +59,8 @@ public class EventsDataSource {
         _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
     }
 
-    public void deleteEvent(Event event){
-        long id = event.get_id();
-        System.out.println("Event deleted with id : " + id);
-        _database.delete(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+    public void deleteEvent(){
+        _database.delete(MySQLiteHelper.TABLE_EVENTS, null, null);
     }
 
     public ArrayList<Event> getAllEvents(){
@@ -93,6 +91,7 @@ public class EventsDataSource {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             String matiere = cursor.getString(0);
+            if (matiere!=null)
             matieres.add(matiere);
             cursor.moveToNext();
         }
