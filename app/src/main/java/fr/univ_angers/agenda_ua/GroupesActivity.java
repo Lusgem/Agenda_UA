@@ -33,7 +33,6 @@ import fr.univ_angers.agenda_ua.evenement.Event;
 public class GroupesActivity extends AppCompatActivity {
 
     Spinner spinner;
-    Map<String,String> groupes;
     Context context = this;
     Groupes groupe;
 
