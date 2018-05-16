@@ -25,7 +25,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATE_STAMP = "dateStamp";
     public static final String COLUMN_REMARQUE = "remarque";
 
-    // Version et nom de la base de donnée
+    // Version et nom de la base de données
     private static final String DATABASE_NAME = "events.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -56,5 +56,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Log.w(MySQLiteHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old date");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         onCreate(db);
+
     }
 }

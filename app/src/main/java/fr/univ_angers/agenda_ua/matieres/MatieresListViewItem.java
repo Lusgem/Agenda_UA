@@ -2,7 +2,7 @@ package fr.univ_angers.agenda_ua.matieres;
 
 public class MatieresListViewItem {
 
-    private boolean checked = false;
+    private boolean checked = true;
 
     private String itemText = "";
 

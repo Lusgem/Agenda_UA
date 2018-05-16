@@ -18,17 +18,18 @@ import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
 public class MatieresActivity extends AppCompatActivity{
-
+        private Button _btn_valider_matieres;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_matieres);
-
+            _btn_valider_matieres = (Button) findViewById(R.id.button_valider_matieres);
             // Get listview checkbox.
             final ListView listViewWithCheckbox = (ListView)findViewById(R.id.list_view_with_checkbox);
 
             // Initiate listview data.
             final List<MatieresListViewItem> initItemList = this.getInitViewItemDtoList();
+            System.out.println("Size : "+initItemList.size());
 
             // Create a custom list view adapter with checkbox control.
             final MatieresAdapter listViewDataAdapter = new MatieresAdapter(getApplicationContext(), initItemList);
@@ -66,92 +67,6 @@ public class MatieresActivity extends AppCompatActivity{
                 }
             });
 
-            // Click this button to select all listview items with checkbox checked.
-            Button selectAllButton = (Button)findViewById(R.id.list_select_all);
-            selectAllButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int size = initItemList.size();
-                    for(int i=0;i<size;i++)
-                    {
-                        MatieresListViewItem dto = initItemList.get(i);
-                        dto.setChecked(true);
-                    }
-
-                    listViewDataAdapter.notifyDataSetChanged();
-                }
-            });
-
-            // Click this button to disselect all listview items with checkbox unchecked.
-            Button selectNoneButton = (Button)findViewById(R.id.list_select_none);
-            selectNoneButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int size = initItemList.size();
-                    for(int i=0;i<size;i++)
-                    {
-                        MatieresListViewItem dto = initItemList.get(i);
-                        dto.setChecked(false);
-                    }
-
-                    listViewDataAdapter.notifyDataSetChanged();
-                }
-            });
-
-            // Click this button to reverse select listview items.
-            Button selectReverseButton = (Button)findViewById(R.id.list_select_reverse);
-            selectReverseButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int size = initItemList.size();
-                    for(int i=0;i<size;i++)
-                    {
-                        MatieresListViewItem dto = initItemList.get(i);
-
-                        if(dto.isChecked())
-                        {
-                            dto.setChecked(false);
-                        }else {
-                            dto.setChecked(true);
-                        }
-                    }
-
-                    listViewDataAdapter.notifyDataSetChanged();
-                }
-            });
-
-            // Click this button to remove selected items from listview.
-            Button selectRemoveButton = (Button)findViewById(R.id.list_remove_selected_rows);
-            selectRemoveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(MatieresActivity.this).create();
-                    alertDialog.setMessage("Are you sure to remove selected listview items?");
-
-                    alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            int size = initItemList.size();
-                            for(int i=0;i<size;i++)
-                            {
-                                MatieresListViewItem dto = initItemList.get(i);
-
-                                if(dto.isChecked())
-                                {
-                                    initItemList.remove(i);
-                                    i--;
-                                    size = initItemList.size();
-                                }
-                            }
-
-                            listViewDataAdapter.notifyDataSetChanged();
-                        }
-                    });
-
-                    alertDialog.show();
-                }
-            });
 
         }
 
@@ -161,9 +76,6 @@ public class MatieresActivity extends AppCompatActivity{
         {
             ArrayList<String> matieres = GetEvents._listeMatieres;
             ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
-
-            int length = matieres.size();
-
             for(String matiere : matieres)
             {
                 MatieresListViewItem dto = new MatieresListViewItem();

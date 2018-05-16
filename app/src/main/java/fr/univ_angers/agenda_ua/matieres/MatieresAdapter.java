@@ -15,7 +15,7 @@ public class MatieresAdapter extends BaseAdapter {
 
     private List<MatieresListViewItem> listViewItemDtoList = null;
 
-    private Context ctx = null;
+    private Context ctx;
 
     public MatieresAdapter(Context ctx, List<MatieresListViewItem> listViewItemDtoList) {
         this.ctx = ctx;
@@ -49,31 +49,34 @@ public class MatieresAdapter extends BaseAdapter {
     @Override
     public View getView(int itemIndex, View convertView, ViewGroup viewGroup) {
 
-        MatieresViewHolder viewHolder = null;
+        MatieresViewHolder viewHolder;
 
         if(convertView!=null)
         {
             viewHolder = (MatieresViewHolder) convertView.getTag();
+
         }else
         {
-            convertView = View.inflate(ctx, R.layout.activity_matieres, null);
+            convertView = View.inflate(ctx, R.layout.matieres_item, null);
 
             CheckBox listItemCheckbox = (CheckBox) convertView.findViewById(R.id.list_view_item_checkbox);
 
-            TextView listItemText = (TextView) convertView.findViewById(R.id.list_view_item_text);
+            //TextView listItemText = (TextView) convertView.findViewById(R.id.list_view_item_text);
 
             viewHolder = new MatieresViewHolder(convertView);
 
             viewHolder.setItemCheckbox(listItemCheckbox);
 
-            viewHolder.setItemTextView(listItemText);
+            //viewHolder.setItemTextView(listItemText);
 
             convertView.setTag(viewHolder);
         }
 
         MatieresListViewItem listViewItemDto = listViewItemDtoList.get(itemIndex);
+        System.out.println("Item "+listViewItemDto.getItemText());
         viewHolder.getItemCheckbox().setChecked(listViewItemDto.isChecked());
-        viewHolder.getItemTextView().setText(listViewItemDto.getItemText());
+        viewHolder.getItemCheckbox().setText(listViewItemDto.getItemText());
+
 
         return convertView;
     }
