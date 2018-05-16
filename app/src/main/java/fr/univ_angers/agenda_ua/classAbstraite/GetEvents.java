@@ -11,4 +11,5 @@ import fr.univ_angers.agenda_ua.evenement.EventExterieur;
 public abstract class GetEvents {
     public static ArrayList<Event> _events;
     public static ArrayList<EventExterieur> _eventsExterieur;
+    public static ArrayList<String> _listeMatieres;
 }

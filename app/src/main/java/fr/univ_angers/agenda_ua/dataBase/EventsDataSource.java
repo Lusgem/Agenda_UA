@@ -93,6 +93,7 @@ public class EventsDataSource {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             String matiere = cursor.getString(0);
+            if (matiere!=null)
             matieres.add(matiere);
             cursor.moveToNext();
         }
