@@ -1,44 +1,23 @@
 package fr.univ_angers.agenda_ua;
 
-<<<<<<< HEAD
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Objects;
 
 public class Groupes implements Parcelable{
-=======
-public class Groupes {
->>>>>>> Re commit
 
     private String _intitule;
     private String _lien;
 
-<<<<<<< HEAD
-    protected Groupes(Parcel in) {
-        _intitule = in.readString();
-        _lien = in.readString();
-    }
-
-    public static final Creator<Groupes> CREATOR = new Creator<Groupes>() {
-        @Override
-        public Groupes createFromParcel(Parcel in) {
-            return new Groupes(in);
-        }
-
-        @Override
-        public Groupes[] newArray(int size) {
-            return new Groupes[size];
-        }
-    };
-
-    public String get_intitule() {
-        return _intitule;
-=======
     public Groupes(String intitule, String lien) {
         this._intitule = intitule;
         this._lien = lien;
->>>>>>> Re commit
+    }
+
+    protected Groupes(Parcel in) {
+        _intitule = in.readString();
+        _lien = in.readString();
     }
 
     //Getter
@@ -66,18 +45,24 @@ public class Groupes {
     public boolean equals(Object obj) {
         if (obj instanceof Groupes){
             Groupes c = (Groupes) obj;
-            if (c.get_intitule().equals(_intitule) && c.get_lien() == _lien ) {
+            if (c.get_intitule().equals(_intitule) && c.get_lien().equals(_lien)) {
                 return true;
             }
         }
         return false;
     }
-<<<<<<< HEAD
 
+    public static final Creator<Groupes> CREATOR = new Creator<Groupes>() {
+        @Override
+        public Groupes createFromParcel(Parcel in) {
+            return new Groupes(in);
+        }
 
-    private String _intitule;
-    private String _lien;
-
+        @Override
+        public Groupes[] newArray(int size) {
+            return new Groupes[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -89,6 +74,4 @@ public class Groupes {
         dest.writeString(_intitule);
         dest.writeString(_lien);
     }
-=======
->>>>>>> Re commit
 }
