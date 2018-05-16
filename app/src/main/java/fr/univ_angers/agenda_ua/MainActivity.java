@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
     public void onData(View view){
         GetEvents._events = _datasource.getAllEvents();
+        GetEvents._listeMatieres = _datasource.getMatieres();
         Intent WeekView = new Intent(this, BasicActivity.class);
         startActivity(WeekView);
     }

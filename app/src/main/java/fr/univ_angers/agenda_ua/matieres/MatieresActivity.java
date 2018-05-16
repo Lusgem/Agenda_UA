@@ -1,27 +1,37 @@
 package fr.univ_angers.agenda_ua.matieres;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.univ_angers.agenda_ua.R;
+import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
-public class MatieresActivity extends AppCompatActivity
+public class MatieresActivity extends AppCompatActivity{
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_list_view_with_checkbox);
-
-            setTitle("dev2qa.com - Android ListView With CheckBox");
+            setContentView(R.layout.activity_matieres);
 
             // Get listview checkbox.
             final ListView listViewWithCheckbox = (ListView)findViewById(R.id.list_view_with_checkbox);
 
             // Initiate listview data.
-            final List<ListViewItemDTO> initItemList = this.getInitViewItemDtoList();
+            final List<MatieresListViewItem> initItemList = this.getInitViewItemDtoList();
 
             // Create a custom list view adapter with checkbox control.
-            final ListViewItemCheckboxBaseAdapter listViewDataAdapter = new ListViewItemCheckboxBaseAdapter(getApplicationContext(), initItemList);
+            final MatieresAdapter listViewDataAdapter = new MatieresAdapter(getApplicationContext(), initItemList);
 
             listViewDataAdapter.notifyDataSetChanged();
 
@@ -36,7 +46,7 @@ public class MatieresActivity extends AppCompatActivity
                     Object itemObject = adapterView.getAdapter().getItem(itemIndex);
 
                     // Translate the selected item to DTO object.
-                    ListViewItemDTO itemDto = (ListViewItemDTO)itemObject;
+                    MatieresListViewItem itemDto = (MatieresListViewItem) itemObject;
 
                     // Get the checkbox.
                     CheckBox itemCheckbox = (CheckBox) view.findViewById(R.id.list_view_item_checkbox);
@@ -64,7 +74,7 @@ public class MatieresActivity extends AppCompatActivity
                     int size = initItemList.size();
                     for(int i=0;i<size;i++)
                     {
-                        ListViewItemDTO dto = initItemList.get(i);
+                        MatieresListViewItem dto = initItemList.get(i);
                         dto.setChecked(true);
                     }
 
@@ -80,7 +90,7 @@ public class MatieresActivity extends AppCompatActivity
                     int size = initItemList.size();
                     for(int i=0;i<size;i++)
                     {
-                        ListViewItemDTO dto = initItemList.get(i);
+                        MatieresListViewItem dto = initItemList.get(i);
                         dto.setChecked(false);
                     }
 
@@ -96,7 +106,7 @@ public class MatieresActivity extends AppCompatActivity
                     int size = initItemList.size();
                     for(int i=0;i<size;i++)
                     {
-                        ListViewItemDTO dto = initItemList.get(i);
+                        MatieresListViewItem dto = initItemList.get(i);
 
                         if(dto.isChecked())
                         {
@@ -116,7 +126,7 @@ public class MatieresActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(ListViewWithCheckboxActivity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(MatieresActivity.this).create();
                     alertDialog.setMessage("Are you sure to remove selected listview items?");
 
                     alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
@@ -125,7 +135,7 @@ public class MatieresActivity extends AppCompatActivity
                             int size = initItemList.size();
                             for(int i=0;i<size;i++)
                             {
-                                ListViewItemDTO dto = initItemList.get(i);
+                                MatieresListViewItem dto = initItemList.get(i);
 
                                 if(dto.isChecked())
                                 {
@@ -147,25 +157,21 @@ public class MatieresActivity extends AppCompatActivity
 
 
         // Return an initialize list of ListViewItemDTO.
-        private List<ListViewItemDTO> getInitViewItemDtoList()
+        private List<MatieresListViewItem> getInitViewItemDtoList()
         {
-            String itemTextArr[] = {"Android", "iOS", "Java", "JavaScript", "JDBC", "JSP", "Linux", "Python", "Servlet", "Windows"};
+            ArrayList<String> matieres = GetEvents._listeMatieres;
+            ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
 
-            List<ListViewItemDTO> ret = new ArrayList<ListViewItemDTO>();
+            int length = matieres.size();
 
-            int length = itemTextArr.length;
-
-            for(int i=0;i<length;i++)
+            for(String matiere : matieres)
             {
-                String itemText = itemTextArr[i];
-
-                ListViewItemDTO dto = new ListViewItemDTO();
-                dto.setChecked(false);
-                dto.setItemText(itemText);
+                MatieresListViewItem dto = new MatieresListViewItem();
+                dto.setChecked(true);
+                dto.setItemText(matiere);
 
                 ret.add(dto);
             }
-
             return ret;
         }
 }

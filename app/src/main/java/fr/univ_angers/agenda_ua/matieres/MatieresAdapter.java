@@ -1,9 +1,15 @@
 package fr.univ_angers.agenda_ua.matieres;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import java.util.List;
+
+import fr.univ_angers.agenda_ua.R;
 
 public class MatieresAdapter extends BaseAdapter {
 
@@ -11,7 +17,7 @@ public class MatieresAdapter extends BaseAdapter {
 
     private Context ctx = null;
 
-    public ListViewItemCheckboxBaseAdapter(Context ctx, List<ListViewItemDTO> listViewItemDtoList) {
+    public MatieresAdapter(Context ctx, List<MatieresListViewItem> listViewItemDtoList) {
         this.ctx = ctx;
         this.listViewItemDtoList = listViewItemDtoList;
     }
@@ -43,20 +49,20 @@ public class MatieresAdapter extends BaseAdapter {
     @Override
     public View getView(int itemIndex, View convertView, ViewGroup viewGroup) {
 
-        ListViewItemViewHolder viewHolder = null;
+        MatieresViewHolder viewHolder = null;
 
         if(convertView!=null)
         {
-            viewHolder = (ListViewItemViewHolder) convertView.getTag();
+            viewHolder = (MatieresViewHolder) convertView.getTag();
         }else
         {
-            convertView = View.inflate(ctx, R.layout.activity_list_view_with_checkbox_item, null);
+            convertView = View.inflate(ctx, R.layout.activity_matieres, null);
 
             CheckBox listItemCheckbox = (CheckBox) convertView.findViewById(R.id.list_view_item_checkbox);
 
             TextView listItemText = (TextView) convertView.findViewById(R.id.list_view_item_text);
 
-            viewHolder = new ListViewItemViewHolder(convertView);
+            viewHolder = new MatieresViewHolder(convertView);
 
             viewHolder.setItemCheckbox(listItemCheckbox);
 
@@ -65,7 +71,7 @@ public class MatieresAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         }
 
-        ListViewItemDTO listViewItemDto = listViewItemDtoList.get(itemIndex);
+        MatieresListViewItem listViewItemDto = listViewItemDtoList.get(itemIndex);
         viewHolder.getItemCheckbox().setChecked(listViewItemDto.isChecked());
         viewHolder.getItemTextView().setText(listViewItemDto.getItemText());
 
