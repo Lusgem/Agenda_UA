@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Agenda_UA</string>
     <!-- activity_main id -->
-    <string name="tv_info_main">Add ICS link</string>
+    <string name="tv_info_main">Choisir sa formation</string>
     <string name="et_link_main">ICS link</string>
     <string name="bu_text_main">Submit</string>
 
