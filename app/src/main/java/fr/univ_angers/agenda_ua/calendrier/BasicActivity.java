@@ -26,7 +26,7 @@ public class BasicActivity extends WeekView {
         int test = 0;
         for (int i = 0; i < GetEvents._events.size(); i++) {
 
-            if (newYear == GetEvents._events.get(i).get_annee_debut() && newMonth == GetEvents._events.get(i).get_mois_debut() + 1) {
+            if (newYear == GetEvents._events.get(i).get_annee_debut() && newMonth == (GetEvents._events.get(i).get_mois_debut() + 1)) {
                 Calendar startTime = Calendar.getInstance();
                 startTime.set(Calendar.DAY_OF_MONTH, GetEvents._events.get(i).get_jour_debut());
                 startTime.set(Calendar.HOUR_OF_DAY, GetEvents._events.get(i).get_heure_debut());

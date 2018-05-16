@@ -12,10 +12,13 @@ import net.fortuna.ical4j.model.Property;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+
+import javax.security.auth.callback.Callback;
 
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
 
@@ -23,6 +26,12 @@ import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
 public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
 
     private final static String TAG = Activity.class.getName();
+
+    public interface Listeners{
+        void onPreExecute();
+        void doInBackground();
+        void onPostExecute();
+    }
 
     private String _dateDebut;
     private String _dateFin;
@@ -36,16 +45,21 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
 
     private EventsDataSource _datasource;
 
+    private final WeakReference<Listeners> _callback;
 
-    public ICSAsyncTask(EventsDataSource dataSource){
+
+    public ICSAsyncTask(EventsDataSource dataSource, Listeners callback){
         _datasource = dataSource;
+        _callback = new WeakReference<Listeners>(callback);
     }
 
     @Override
     protected Void doInBackground(String ... strings) {
+        _callback.get().doInBackground();
         try {
             URL url = new URL(strings[0]);
-            Log.e(TAG, url.toString());
+
+            Log.e(TAG, "En cours d'execution sur : " + url.toString());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -104,11 +118,13 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        Log.e(TAG, "Start");
+        Log.e(TAG, "Debut");
+        _callback.get().onPreExecute();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        Log.e(TAG, "Finished");
+        Log.e(TAG, "Fin");
+        _callback.get().onPostExecute();
     }
 }

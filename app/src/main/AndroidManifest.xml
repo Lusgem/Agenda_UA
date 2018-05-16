@@ -22,9 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".calendrier.BasicActivity"></activity>
         <activity android:name=".WeekView" />
-        <activity android:name=".BasicActivity" />
-        <activity android:name=".GroupesActivity"></activity>
     </application>
 
 </manifest>

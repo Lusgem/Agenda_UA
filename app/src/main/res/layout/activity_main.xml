@@ -16,38 +16,30 @@
         android:textSize="40dp"
         android:text="@string/tv_info_main" />
 
-    <EditText
-        android:id="@+id/et_link_main"
+    <Spinner
+        android:id="@+id/spinner_groupes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:text="http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/g467954.ics"
-        android:hint="@string/et_link_main" />
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/bu_click_main"
+        android:id="@+id/bu_click_groupes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:onClick="onClick"
-        android:text="Lecture du fichier sur le net + met dans db" />
+        android:onClick="onClickGroups"
+        android:text="Charger les données" />
 
     <Button
-        android:id="@+id/bu_click_test"
+        android:id="@+id/bu_click_affiche_groupes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:onClick="onData"
-        android:text="Affiche les données" />
+        android:text="Afficher les données"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Obtenir les groupes"
-        android:onClick="onClickGroup"/>
-
+    <ProgressBar
+        android:id="@+id/activity_main_progress_bar"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:visibility="gone"/>
 </LinearLayout>
