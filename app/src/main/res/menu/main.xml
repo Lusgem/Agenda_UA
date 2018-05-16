@@ -21,7 +21,21 @@
             android:title="@string/action_week_view"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
-
+    </group>
+    <group>
+        <item android:id="@+id/action_parametre"
+            android:title="Parametre"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+        <item android:id="@+id/action_taches_a_venir"
+            android:title="Taches à venir"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"
+            android:checked="true"/>
+        <item android:id="@+id/action_comparer_evenenement"
+            android:title="Comparer vos emplois du temps"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
     </group>
 
 </menu>
