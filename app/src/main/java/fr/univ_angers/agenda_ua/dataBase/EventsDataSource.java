@@ -42,7 +42,7 @@ public class EventsDataSource {
         _dbHelper.close();
     }
 
-    public void createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
+    public Event createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
         // Créer un pseudo objet
         ContentValues values = new ContentValues();
         // Lui ajoute des valeurs sous forme de cle / attribut
@@ -56,7 +56,14 @@ public class EventsDataSource {
         values.put(MySQLiteHelper.COLUMN_DATE_STAMP, dateStamp);
         values.put(MySQLiteHelper.COLUMN_REMARQUE, remarque);
 
-        _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
+        //_database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
+
+        long insertId = _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
+        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
+        cursor.moveToFirst();
+        Event newEvent = cursorToEvent(cursor);
+        cursor.close();
+        return newEvent;
     }
 
     public void deleteEvent(Event event){
