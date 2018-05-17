@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".calendrier.BasicActivity" />
-        <activity android:name=".matieres.MatieresActivity"/>
+        <activity android:name=".recyclerView.EventRecyclerView" />
     </application>
 
 </manifest>

@@ -23,7 +23,6 @@ import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
-import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 
 public class MainActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
 
@@ -128,12 +127,6 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     }
 
     public void onClickGroups(View view){
-        //Suppression de la base de données
-        this.deleteDatabase("events.db");
-
-        _datasource = new EventsDataSource(this);
-        _datasource.open();
-
         final ICSAsyncTask xat = new ICSAsyncTask(_datasource, this);
         String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
         xat.execute(url);
@@ -141,21 +134,19 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
     public void onData(View view){
         GetEvents._events = _datasource.getAllEvents();
-        GetEvents._listeMatieres = _datasource.getMatieres();
-        Intent Matiereactivity = new Intent(this, MatieresActivity.class);
         Intent WeekView = new Intent(this, BasicActivity.class);
-        startActivity(Matiereactivity);
+        startActivity(WeekView);
     }
 
     @Override
     public void onPreExecute() {
         updateUIAvantTache();
+        //Suppression de la base de données
+        _datasource.deleteEvent();
     }
 
     @Override
-    public void doInBackground() {
-
-    }
+    public void doInBackground() {}
 
     @Override
     public void onPostExecute() {

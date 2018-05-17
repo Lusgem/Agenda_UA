@@ -66,10 +66,8 @@ public class EventsDataSource {
         return newEvent;
     }
 
-    public void deleteEvent(Event event){
-        long id = event.get_id();
-        System.out.println("Event deleted with id : " + id);
-        _database.delete(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+    public void deleteEvent(){
+        _database.delete(MySQLiteHelper.TABLE_EVENTS, null, null);
     }
 
     public ArrayList<Event> getAllEvents(){

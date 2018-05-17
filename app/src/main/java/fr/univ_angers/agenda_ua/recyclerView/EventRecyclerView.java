@@ -1,9 +1,11 @@
 package fr.univ_angers.agenda_ua.recyclerView;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -13,6 +15,8 @@ import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
 public class EventRecyclerView extends AppCompatActivity {
 
+    private final static String TAG = Activity.class.getName();
+
     private RecyclerView _rv_event;
     private EventAdapter _adapter;
 
@@ -20,6 +24,8 @@ public class EventRecyclerView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_recycler_view);
+
+        Log.i(TAG, "EventRecyclerView onCreate");
 
         _rv_event = (RecyclerView) findViewById(R.id.main_recycler_view);
         _adapter = new EventAdapter();

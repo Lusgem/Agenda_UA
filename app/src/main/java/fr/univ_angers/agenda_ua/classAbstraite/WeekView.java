@@ -1,12 +1,15 @@
 package fr.univ_angers.agenda_ua.classAbstraite;
 
+import android.app.Activity;
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -17,9 +20,13 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import fr.univ_angers.agenda_ua.R;
+import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
+import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
 
 public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, com.alamkanak.weekview.WeekView.EventLongPressListener, com.alamkanak.weekview.WeekView.EmptyViewLongPressListener {
+
+    private final static String TAG = Activity.class.getName();
 
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
@@ -31,6 +38,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_view);
+
+        Log.i(TAG, "WeekView onCreate");
 
         // Get a reference for the week view in the layout.
         mWeekView = (com.alamkanak.weekview.WeekView) findViewById(R.id.weekView);
@@ -103,8 +112,11 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                 }
                 return true;
-
-                
+            case R.id.action_taches_a_venir:
+                Intent vue = new Intent(this, EventRecyclerView.class);
+                startActivity(vue);
+                //System.out.println("Coucou");
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
