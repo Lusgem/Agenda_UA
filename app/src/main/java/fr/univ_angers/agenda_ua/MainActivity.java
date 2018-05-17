@@ -23,6 +23,7 @@ import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
+import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 
 public class MainActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
 
@@ -134,8 +135,10 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
     public void onData(View view){
         GetEvents._events = _datasource.getAllEvents();
+        GetEvents._listeMatieres = _datasource.getMatieres();
+        Intent Matiereactivity = new Intent(this, MatieresActivity.class);
         Intent WeekView = new Intent(this, BasicActivity.class);
-        startActivity(WeekView);
+        startActivity(Matiereactivity);
     }
 
     @Override

@@ -8,6 +8,7 @@
         android:id="@+id/button_valider_matieres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onClickMatieres"
         android:text="Valider" />
 
     <ListView

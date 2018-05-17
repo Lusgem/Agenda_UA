@@ -2,6 +2,7 @@ package fr.univ_angers.agenda_ua.matieres;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,29 +15,26 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univ_angers.agenda_ua.MainActivity;
 import fr.univ_angers.agenda_ua.R;
+import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
 public class MatieresActivity extends AppCompatActivity{
         private Button _btn_valider_matieres;
+        private ArrayList<String> _listeMatiereAEnlever = new ArrayList<>();
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_matieres);
             _btn_valider_matieres = (Button) findViewById(R.id.button_valider_matieres);
-            // Get listview checkbox.
             final ListView listViewWithCheckbox = (ListView)findViewById(R.id.list_view_with_checkbox);
-
-            // Initiate listview data.
             final List<MatieresListViewItem> initItemList = this.getInitViewItemDtoList();
             System.out.println("Size : "+initItemList.size());
-
-            // Create a custom list view adapter with checkbox control.
             final MatieresAdapter listViewDataAdapter = new MatieresAdapter(getApplicationContext(), initItemList);
 
             listViewDataAdapter.notifyDataSetChanged();
 
-            // Set data adapter to list view.
             listViewWithCheckbox.setAdapter(listViewDataAdapter);
 
             // When list view item is clicked.
@@ -55,15 +53,19 @@ public class MatieresActivity extends AppCompatActivity{
                     // Reverse the checkbox and clicked item check state.
                     if(itemDto.isChecked())
                     {
+                        _listeMatiereAEnlever.add(itemCheckbox.getText().toString());
                         itemCheckbox.setChecked(false);
                         itemDto.setChecked(false);
                     }else
                     {
+                        for (int i=0;i<_listeMatiereAEnlever.size();i++){
+                            if(_listeMatiereAEnlever.get(i)==itemCheckbox.getText().toString())
+                                _listeMatiereAEnlever.remove(i);
+                        }
                         itemCheckbox.setChecked(true);
                         itemDto.setChecked(true);
                     }
 
-                    //Toast.makeText(getApplicationContext(), "select item text : " + itemDto.getItemText(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -78,12 +80,18 @@ public class MatieresActivity extends AppCompatActivity{
             ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
             for(String matiere : matieres)
             {
-                MatieresListViewItem dto = new MatieresListViewItem();
-                dto.setChecked(true);
-                dto.setItemText(matiere);
+                MatieresListViewItem mat = new MatieresListViewItem();
+                mat.setChecked(true);
+                mat.setItemText(matiere);
 
-                ret.add(dto);
+                ret.add(mat);
             }
             return ret;
+        }
+
+        public void onClickMatieres(View view){
+            GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
+            Intent WeekView = new Intent(this, BasicActivity.class);
+            startActivity(WeekView);
         }
 }

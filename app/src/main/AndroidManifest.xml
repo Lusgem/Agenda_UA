@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".calendrier.BasicActivity" />
         <activity android:name=".recyclerView.EventRecyclerView" />
+        <activity android:name=".matieres.MatieresActivity"/>
     </application>
 
 </manifest>
