@@ -41,9 +41,6 @@ public class BasicActivity extends WeekView {
             }
             test = i;
         }
-        System.out.println(test);
-        System.out.println(j);
-
         return events;
     }
 }

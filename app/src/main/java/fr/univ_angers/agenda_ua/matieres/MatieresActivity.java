@@ -17,7 +17,7 @@ import java.util.List;
 
 import fr.univ_angers.agenda_ua.MainActivity;
 import fr.univ_angers.agenda_ua.R;
-import fr.univ_angers.agenda_ua.Traitements.TraitementMatieres;
+import fr.univ_angers.agenda_ua.Traitements.Traitement;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
@@ -31,7 +31,6 @@ public class MatieresActivity extends AppCompatActivity{
             _btn_valider_matieres = (Button) findViewById(R.id.button_valider_matieres);
             final ListView listViewWithCheckbox = (ListView)findViewById(R.id.list_view_with_checkbox);
             final List<MatieresListViewItem> initItemList = this.getInitViewItemDtoList();
-            System.out.println("Size : "+initItemList.size());
             final MatieresAdapter listViewDataAdapter = new MatieresAdapter(getApplicationContext(), initItemList);
 
             listViewDataAdapter.notifyDataSetChanged();
@@ -84,9 +83,7 @@ public class MatieresActivity extends AppCompatActivity{
 
         public void onClickMatieres(View view){
             GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
-            TraitementMatieres.TraitementMatiere();
-            System.out.println("Size event : "+GetEvents._events.size());
-            System.out.println("Size eventTraite : "+GetEvents._eventsTraites.size());
+            Traitement.TraitementMatiere();
             Intent WeekView = new Intent(this, BasicActivity.class);
             startActivity(WeekView);
         }

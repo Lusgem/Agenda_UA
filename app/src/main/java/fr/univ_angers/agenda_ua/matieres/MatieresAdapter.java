@@ -73,7 +73,6 @@ public class MatieresAdapter extends BaseAdapter {
         }
 
         MatieresListViewItem listViewItemDto = listViewItemDtoList.get(itemIndex);
-        System.out.println("Item "+listViewItemDto.getItemText());
         viewHolder.getItemCheckbox().setChecked(listViewItemDto.isChecked());
         viewHolder.getItemCheckbox().setText(listViewItemDto.getItemText());
 
