@@ -17,6 +17,7 @@ import java.util.List;
 
 import fr.univ_angers.agenda_ua.MainActivity;
 import fr.univ_angers.agenda_ua.R;
+import fr.univ_angers.agenda_ua.Traitements.TraitementMatieres;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
@@ -37,20 +38,14 @@ public class MatieresActivity extends AppCompatActivity{
 
             listViewWithCheckbox.setAdapter(listViewDataAdapter);
 
-            // When list view item is clicked.
             listViewWithCheckbox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long l) {
-                    // Get user selected item.
+
                     Object itemObject = adapterView.getAdapter().getItem(itemIndex);
-
-                    // Translate the selected item to DTO object.
                     MatieresListViewItem itemDto = (MatieresListViewItem) itemObject;
-
-                    // Get the checkbox.
                     CheckBox itemCheckbox = (CheckBox) view.findViewById(R.id.list_view_item_checkbox);
 
-                    // Reverse the checkbox and clicked item check state.
                     if(itemDto.isChecked())
                     {
                         _listeMatiereAEnlever.add(itemCheckbox.getText().toString());
@@ -72,8 +67,6 @@ public class MatieresActivity extends AppCompatActivity{
 
         }
 
-
-        // Return an initialize list of ListViewItemDTO.
         private List<MatieresListViewItem> getInitViewItemDtoList()
         {
             ArrayList<String> matieres = GetEvents._listeMatieres;
@@ -91,6 +84,9 @@ public class MatieresActivity extends AppCompatActivity{
 
         public void onClickMatieres(View view){
             GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
+            TraitementMatieres.TraitementMatiere();
+            System.out.println("Size event : "+GetEvents._events.size());
+            System.out.println("Size eventTraite : "+GetEvents._eventsTraites.size());
             Intent WeekView = new Intent(this, BasicActivity.class);
             startActivity(WeekView);
         }

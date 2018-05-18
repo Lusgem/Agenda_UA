@@ -20,23 +20,21 @@ public class BasicActivity extends WeekView {
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> events = new ArrayList<>();
 
-        System.out.println(newMonth);
-        System.out.println(newYear);
         int j = 0;
         int test = 0;
-        for (int i = 0; i < GetEvents._events.size(); i++) {
+        for (int i = 0; i < GetEvents._eventsTraites.size(); i++) {
 
-            if (newYear == GetEvents._events.get(i).get_annee_debut() && newMonth == (GetEvents._events.get(i).get_mois_debut() + 1)) {
+            if (newYear == GetEvents._eventsTraites.get(i).get_annee_debut() && newMonth == (GetEvents._eventsTraites.get(i).get_mois_debut() + 1)) {
                 Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.DAY_OF_MONTH, GetEvents._events.get(i).get_jour_debut());
-                startTime.set(Calendar.HOUR_OF_DAY, GetEvents._events.get(i).get_heure_debut());
-                startTime.set(Calendar.MINUTE, GetEvents._events.get(i).get_minute_debut());
-                startTime.set(Calendar.MONTH, GetEvents._events.get(i).get_mois_debut());
-                startTime.set(Calendar.YEAR, GetEvents._events.get(i).get_annee_debut());
+                startTime.set(Calendar.DAY_OF_MONTH, GetEvents._eventsTraites.get(i).get_jour_debut());
+                startTime.set(Calendar.HOUR_OF_DAY, GetEvents._eventsTraites.get(i).get_heure_debut());
+                startTime.set(Calendar.MINUTE, GetEvents._eventsTraites.get(i).get_minute_debut());
+                startTime.set(Calendar.MONTH, GetEvents._eventsTraites.get(i).get_mois_debut());
+                startTime.set(Calendar.YEAR, GetEvents._eventsTraites.get(i).get_annee_debut());
                 Calendar endTime = (Calendar) startTime.clone();
-                endTime.set(Calendar.HOUR_OF_DAY, GetEvents._events.get(i).get_heure_fin());
-                endTime.set(Calendar.MINUTE, GetEvents._events.get(i).get_minute_fin());
-                WeekViewEvent event = new WeekViewEvent(i, GetEvents._events.get(i).get_summary() , GetEvents._events.get(i).get_location(), startTime, endTime);
+                endTime.set(Calendar.HOUR_OF_DAY, GetEvents._eventsTraites.get(i).get_heure_fin());
+                endTime.set(Calendar.MINUTE, GetEvents._eventsTraites.get(i).get_minute_fin());
+                WeekViewEvent event = new WeekViewEvent(i, GetEvents._eventsTraites.get(i).get_summary() , GetEvents._eventsTraites.get(i).get_location(), startTime, endTime);
                 event.setColor(getResources().getColor(R.color.event_color_01));
                 events.add(event);
                 j++;

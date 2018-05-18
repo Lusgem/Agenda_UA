@@ -9,8 +9,6 @@ public class MatieresViewHolder  extends RecyclerView.ViewHolder {
 
     private CheckBox itemCheckbox;
 
-    private TextView itemTextView;
-
     public MatieresViewHolder(View itemView) {
         super(itemView);
     }
@@ -23,11 +21,4 @@ public class MatieresViewHolder  extends RecyclerView.ViewHolder {
         this.itemCheckbox = itemCheckbox;
     }
 
-    public TextView getItemTextView() {
-        return itemTextView;
-    }
-
-    public void setItemTextView(TextView itemTextView) {
-        this.itemTextView = itemTextView;
-    }
 }
