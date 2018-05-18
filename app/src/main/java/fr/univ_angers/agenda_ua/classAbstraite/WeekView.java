@@ -1,7 +1,13 @@
 package fr.univ_angers.agenda_ua.classAbstraite;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.RectF;
+import android.net.Uri;
+import android.provider.CalendarContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +22,14 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
+import fr.univ_angers.agenda_ua.evenement.EventExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
 
@@ -115,7 +124,39 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
             case R.id.action_taches_a_venir:
                 Intent vue = new Intent(this, EventRecyclerView.class);
                 startActivity(vue);
-                //System.out.println("Coucou");
+                return true;
+            case R.id.action_comparer_evenenement:
+                System.out.println("Coucou");
+                Date dateActuelle = new Date();
+                ArrayList<EventExterieur> array = new ArrayList<EventExterieur>();
+                Uri uri = CalendarContract.Events.CONTENT_URI;
+                String[] projection = new String[]{CalendarContract.Events.TITLE, CalendarContract.Events.EVENT_LOCATION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
+
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, 1);
+                }
+
+                Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+                System.out.println(cursor.getCount());
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()){
+                    String titre = cursor.getString(0);
+                    String lieu = cursor.getString(1);
+                    Date debut = new Date(cursor.getLong(2));
+                    Date fin = new Date(cursor.getLong(3));
+
+                    if ((dateActuelle.compareTo(debut) < 0 || dateActuelle.compareTo(debut)== 0) && debut.getHours() != 0) {
+                        EventExterieur event = new EventExterieur(titre, lieu, debut, fin);
+                        System.out.println(event.toString());
+                        array.add(event);
+                    }
+                    cursor.moveToNext();
+                }
+                cursor.close();
+                GetEvents._eventsExterieur = array;
+                Intent intent = new Intent(this, BasicActivity.class);
+                startActivity(intent);
                 return true;
         }
 
