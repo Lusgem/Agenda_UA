@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import fr.univ_angers.agenda_ua.MainActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.evenement.EventExterieur;
@@ -120,6 +121,10 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                 }
+                return true;
+            case R.id.action_parametre:
+                Intent main = new Intent(this, MainActivity.class);
+                startActivity(main);
                 return true;
             case R.id.action_taches_a_venir:
                 Intent vue = new Intent(this, EventRecyclerView.class);
