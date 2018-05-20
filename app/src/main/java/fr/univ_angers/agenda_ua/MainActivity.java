@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     public void onClickGroups(View view){
         final ICSAsyncTask xat = new ICSAsyncTask(_datasource, this);
         String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
+        GetEvents._url = url;
         xat.execute(url);
     }
 
@@ -137,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
         GetEvents._events = _datasource.getAllEvents();
         GetEvents._listeMatieres = _datasource.getMatieres();
         Intent Matiereactivity = new Intent(this, MatieresActivity.class);
-        Intent WeekView = new Intent(this, BasicActivity.class);
         startActivity(Matiereactivity);
     }
 

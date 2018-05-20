@@ -37,7 +37,7 @@ public class EventRecyclerView extends AppCompatActivity {
 
     public void ajouteEvent(){
         Date dateActuelle = new Date();
-        for (Event e : GetEvents._events) {
+        for (Event e : GetEvents._eventsTraites) {
             if (dateActuelle.getMonth() == e.get_mois_debut() && dateActuelle.getDate() <= e.get_jour_debut() && (dateActuelle.getYear()+1900) <= e.get_annee_debut()){
                 _adapter.ajoute(e);
             }else if (dateActuelle.getMonth() < e.get_mois_debut() && (dateActuelle.getYear()+1900) <= e.get_annee_debut()){
