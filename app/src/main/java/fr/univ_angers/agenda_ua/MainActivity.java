@@ -1,6 +1,8 @@
 package fr.univ_angers.agenda_ua;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     private Button _afficher_groupe;
     private ProgressBar _progressBar;
 
+    private PendingIntent pendingIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
         _charger_groupe.setEnabled(false);
         _afficher_groupe.setEnabled(false);
 
+        configureAlarmManager();
+
+        startAlarm();
+
         gat.execute(this);
 
         try {
@@ -80,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
                 _groupe = (Groupes) parent.getSelectedItem();
                 _charger_groupe.setEnabled(true);
-                Toast.makeText(context, "Lien : " + _groupe.get_lien() + ",  Groupe : " + _groupe.get_intitule(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Lien : " + _groupe.get_lien() + ",  Groupe : " + _groupe.get_intitule(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -163,6 +172,27 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     public void updateUIApresTache(){
         _progressBar.setVisibility(View.GONE);
         _afficher_groupe.setEnabled(true);
+    }
+
+    private void configureAlarmManager(){
+        Intent alarmIntent = new Intent(MainActivity.this, MyAlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+    }
+
+    private void startAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 24);
+
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        Toast.makeText(this, "Alarm set !", Toast.LENGTH_LONG).show();
+    }
+
+    private void stopAlarm() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
     }
 
     /*public String normURL(String _url) {

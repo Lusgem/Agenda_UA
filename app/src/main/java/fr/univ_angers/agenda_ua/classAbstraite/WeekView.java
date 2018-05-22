@@ -3,12 +3,6 @@ package fr.univ_angers.agenda_ua.classAbstraite;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.RectF;
@@ -38,7 +32,6 @@ import java.util.Locale;
 
 import fr.univ_angers.agenda_ua.MainActivity;
 import fr.univ_angers.agenda_ua.R;
-import fr.univ_angers.agenda_ua.SyncJobService;
 import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.evenement.EventExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
@@ -84,28 +77,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional.
         setupDateTimeInterpreter(true);
-
-        startJobScheduler();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void startJobScheduler(){
-        JobInfo job = new JobInfo.Builder(JOBSCHEDULER_ID, new ComponentName(this, SyncJobService.class))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPeriodic(900000)
-                .build();
-
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(job);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void stopJobScheduler(){
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.cancel(JOBSCHEDULER_ID);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
