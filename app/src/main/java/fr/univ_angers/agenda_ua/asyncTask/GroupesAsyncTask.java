@@ -27,13 +27,11 @@ public class GroupesAsyncTask extends AsyncTask<Context,Void,ArrayAdapter<Groupe
         ArrayList<Groupes> groupesList = new ArrayList<>();
         try {
             Document doc = Jsoup.connect("http://celcat.univ-angers.fr/web/publi/etu/gindex.html").get();
-            //System.out.println(doc.title());
             Element content = doc.getElementById("content");
             Elements links = content.getElementsByTag("a");
             for (Element link : links) {
                 String lien = link.attr("href");
                 String intitule = link.text();
-                //System.out.println(lien+" "+intitule);
                 if (lien.length()>5 && lien.substring(lien.length()-5)==".html");
                 {
                     groupesList.add(new Groupes(intitule,lien.substring(0,lien.length()-5)+".ics"));

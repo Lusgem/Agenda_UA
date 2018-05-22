@@ -20,7 +20,7 @@ public class BasicActivity extends WeekView {
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> events = new ArrayList<>();
-
+        System.out.println("On Month Change");
         for (int i = 0; i < GetEvents._eventsTraites.size(); i++) {
 
             if (newYear == GetEvents._eventsTraites.get(i).get_annee_debut() && newMonth == (GetEvents._eventsTraites.get(i).get_mois_debut() + 1)) {

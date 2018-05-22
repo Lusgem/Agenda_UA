@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="28dp"
         android:gravity="center_horizontal"
@@ -26,20 +27,13 @@
         android:id="@+id/bu_click_groupes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/bu_click_affiche_groupes"
-        android:onClick="onClickGroups"
-        android:text="Charger les données" />
-
-    <Button
-        android:id="@+id/bu_click_affiche_groupes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="125dp"
-        android:onClick="onData"
-        android:text="Afficher les données" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="114dp"
+        android:onClick="onClickGroups"
+        android:text="Suivant" />
+
+
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"

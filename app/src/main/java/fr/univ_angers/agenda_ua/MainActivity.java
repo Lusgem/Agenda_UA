@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
     private Spinner _spinner;
     private Button _charger_groupe;
-    private Button _afficher_groupe;
     private ProgressBar _progressBar;
 
     private PendingIntent pendingIntent;
@@ -62,11 +61,9 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
         _spinner = (Spinner) findViewById(R.id.spinner_groupes);
         _charger_groupe = (Button) findViewById(R.id.bu_click_groupes);
-        _afficher_groupe = (Button) findViewById(R.id.bu_click_affiche_groupes);
         _progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
 
         _charger_groupe.setEnabled(false);
-        _afficher_groupe.setEnabled(false);
 
         configureAlarmManager();
 
@@ -143,18 +140,10 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
         xat.execute(url);
     }
 
-    public void onData(View view){
-        GetEvents._events = _datasource.getAllEvents();
-        GetEvents._listeMatieres = _datasource.getMatieres();
-        Intent Matiereactivity = new Intent(this, MatieresActivity.class);
-        startActivity(Matiereactivity);
-    }
-
     @Override
     public void onPreExecute() {
         updateUIAvantTache();
-        //Suppression de la base de données
-        _datasource.deleteEvent();
+        _charger_groupe.setEnabled(false);
     }
 
     @Override
@@ -163,6 +152,11 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     @Override
     public void onPostExecute() {
         updateUIApresTache();
+        GetEvents._events = _datasource.getAllEvents();
+        GetEvents._listeMatieres = _datasource.getMatieres();
+        Intent Matiereactivity = new Intent(this, MatieresActivity.class);
+        startActivity(Matiereactivity);
+        _charger_groupe.setEnabled(true);
     }
 
     public void updateUIAvantTache(){
@@ -171,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
     public void updateUIApresTache(){
         _progressBar.setVisibility(View.GONE);
-        _afficher_groupe.setEnabled(true);
+        _charger_groupe.setEnabled(true);
     }
 
     private void configureAlarmManager(){
@@ -182,7 +176,8 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     private void startAlarm() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 24);
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE,53);
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
