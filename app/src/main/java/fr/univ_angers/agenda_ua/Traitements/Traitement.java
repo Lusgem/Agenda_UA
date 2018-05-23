@@ -3,11 +3,11 @@ package fr.univ_angers.agenda_ua.Traitements;
 import java.util.ArrayList;
 
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
-import fr.univ_angers.agenda_ua.evenement.Event;
+import fr.univ_angers.agenda_ua.evenement.Evenement;
 
 public abstract class Traitement {
     public static void TraitementMatiere(){
-        ArrayList<Event> _eventsTraites = (ArrayList<Event>)GetEvents._events.clone();
+        ArrayList<Evenement> _eventsTraites = (ArrayList<Evenement>)GetEvents._evenements.clone();
         if(GetEvents._listeMatieresAEnlever.isEmpty()){
             System.out.println("Pas de traitement");
         }
@@ -23,7 +23,7 @@ public abstract class Traitement {
 
         }
         GetEvents._eventsTraites = _eventsTraites;
-        System.out.println("Size event : "+GetEvents._events.size());
+        System.out.println("Size event : "+GetEvents._evenements.size());
         System.out.println("Size eventTraite : "+GetEvents._eventsTraites.size());
     }
 

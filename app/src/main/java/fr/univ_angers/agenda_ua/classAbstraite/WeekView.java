@@ -36,7 +36,7 @@ import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
-import fr.univ_angers.agenda_ua.evenement.EventExterieur;
+import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
 
@@ -60,7 +60,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i(TAG, "FormationActivity onCreate");
+        Log.i(TAG, "WeekView onCreate");
 
         /* chrome://inspect/#devices */
         Stetho.initializeWithDefaults(this);
@@ -68,9 +68,12 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         _datasource = new DataSource(this);
 
         if (!databaseExiste(this, "database.db")){
-            _datasource.open();
             afficherPopup();
         }
+
+        _datasource.open();
+
+        GetEvents._eventsTraites = _datasource.getAllEvenements();
 
         // Retourne une reference pour la vue dans le layout activity_main !
         mWeekView = (com.alamkanak.weekview.WeekView) findViewById(R.id.weekView);
@@ -88,37 +91,38 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
     @Override
     protected void onStart() {
-        Log.i(TAG, "FormationActivity onStart");
+        Log.i(TAG, "WeekView onStart");
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        Log.i(TAG, "FormationActivity onResume");
+        Log.i(TAG, "WeekView onResume");
+        _datasource.open();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        Log.i(TAG, "FormationActivity onPause");
+        Log.i(TAG, "WeekView onPause");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        Log.i(TAG, "FormationActivity onStop");
+        Log.i(TAG, "WeekView onStop");
         super.onStop();
     }
 
     @Override
     protected void onRestart() {
-        Log.i(TAG, "FormationActivity onRestart");
+        Log.i(TAG, "WeekView onRestart");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "FormationActivity onDestroy");
+        Log.i(TAG, "WeekView onDestroy");
         _datasource.close();
         super.onDestroy();
     }
@@ -188,7 +192,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 return true;
             case R.id.action_comparer_evenenement:
                 Date dateActuelle = new Date();
-                ArrayList<EventExterieur> array = new ArrayList<EventExterieur>();
+                ArrayList<EvenementExterieur> array = new ArrayList<EvenementExterieur>();
                 Uri uri = CalendarContract.Events.CONTENT_URI;
                 String[] projection = new String[]{CalendarContract.Events.TITLE, CalendarContract.Events.EVENT_LOCATION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
 
@@ -207,7 +211,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     Date fin = new Date(cursor.getLong(3));
 
                     if ((dateActuelle.compareTo(debut) < 0 || dateActuelle.compareTo(debut)== 0) && debut.getHours() != 0) {
-                        EventExterieur event = new EventExterieur(titre, lieu, debut, fin);
+                        EvenementExterieur event = new EvenementExterieur(titre, lieu, debut, fin);
                         System.out.println(event.toString());
                         array.add(event);
                     }
@@ -252,7 +256,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     }
 
     protected String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
+        return String.format("Evenement of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override

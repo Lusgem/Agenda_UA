@@ -1,2 +1,2 @@
 # Agenda_UA
-Coucou
+Attention à la fermeture de l'app, ça delete le geteventtraité

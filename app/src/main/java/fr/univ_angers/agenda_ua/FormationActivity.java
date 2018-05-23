@@ -145,7 +145,7 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     @Override
     public void onPostExecute() {
         updateUIApresTache();
-        GetEvents._events = _datasource.getAllEvents();
+        GetEvents._evenements = _datasource.getAllEvenements();
         GetEvents._listeMatieres = _datasource.getMatieres();
         Intent Matiereactivity = new Intent(this, MatieresActivity.class);
         startActivity(Matiereactivity);
@@ -206,15 +206,15 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     }*/
 
     /*public void onData(View view) {
-        _events = _datasource.getAllEvents();
+        s_evenements = _datasource.getAllEvenements();
 
-        for (Event e : _events){
+        for (Evenement e : s_evenements){
             System.out.println(e.toString());
         }
 
-        System.out.println(_events.get(0));
-        _datasource.deleteEvent(_events.get(0));
-        GetEvents._events = _datasource.getAllEvents();
+        System.out.println(s_evenements.get(0));
+        _datasource.deleteEvenements(s_evenements.get(0));
+        GetEvents.s_evenements = _datasource.getAllEvenements();
         Intent FormationActivity = new Intent(this, MainActivity.class);
         startActivity(FormationActivity);
 

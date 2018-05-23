@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import fr.univ_angers.agenda_ua.evenement.Event;
+import fr.univ_angers.agenda_ua.evenement.Evenement;
 
 /**
  * Created by Thibault Condemine on 26/04/2018.
@@ -17,7 +17,8 @@ public class DataSource {
 
     private SQLiteDatabase _database;
     private Tables _dbHelper;
-    private String[] allColumns = {
+
+    private String[] colonnesEvenement = {
             Tables.COLONNE_ID,
             Tables.COLONNE_PERSONNEL,
             Tables.COLONNE_LOCATION,
@@ -59,28 +60,27 @@ public class DataSource {
         _database.insert(Tables.TABLE_EVENEMENTS, null, values);
     }
 
-    public void deleteEvent(){
+    public void deleteEvenements(){
         _database.delete(Tables.TABLE_EVENEMENTS, null, null);
     }
 
-    public ArrayList<Event> getAllEvents(){
-        ArrayList<Event> events = new ArrayList<>();
+    public ArrayList<Evenement> getAllEvenements(){
+        ArrayList<Evenement> evenements = new ArrayList<>();
         String orderBy = Tables.COLONNE_DATE_DEB;
-        Cursor cursor = _database.query(Tables.TABLE_EVENEMENTS, allColumns, null, null, null, null, orderBy);
+        Cursor cursor = _database.query(Tables.TABLE_EVENEMENTS, colonnesEvenement, null, null, null, null, orderBy);
 
-        //System.out.println(cursor.getCount());
         // Parcour du curseur !
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
-            Event event = cursorToEvent(cursor);
-            events.add(event);
+            Evenement evenement = cursorEvenements(cursor);
+            evenements.add(evenement);
             cursor.moveToNext();
         }
 
         // Fermeture du curseur !
         cursor.close();
         getMatieres();
-        return events;
+        return evenements;
     }
 
     public ArrayList<String> getMatieres(){
@@ -102,18 +102,18 @@ public class DataSource {
     }
 
     // Créer l'objet event après l'ajout dans la db ou au moment de renvoyer toute la liste
-    private Event cursorToEvent(Cursor cursor){
-        Event event = new Event();
-        event.set_id(cursor.getLong(0));
-        event.set_personnel(cursor.getString(1));
-        event.set_location(cursor.getString(2));
-        event.set_matiere(cursor.getString(3));
-        event.set_groupe(cursor.getString(4));
-        event.set_summary(cursor.getString(5));
-        event.set_date_debut(cursor.getString(6));
-        event.set_date_fin(cursor.getString(7));
-        event.set_date_stamp(cursor.getString(8));
-        event.set_remarque(cursor.getString(9));
-        return event;
+    private Evenement cursorEvenements(Cursor cursor){
+        Evenement evenement = new Evenement();
+        evenement.set_id(cursor.getLong(0));
+        evenement.set_personnel(cursor.getString(1));
+        evenement.set_location(cursor.getString(2));
+        evenement.set_matiere(cursor.getString(3));
+        evenement.set_groupe(cursor.getString(4));
+        evenement.set_summary(cursor.getString(5));
+        evenement.set_date_debut(cursor.getString(6));
+        evenement.set_date_fin(cursor.getString(7));
+        evenement.set_date_stamp(cursor.getString(8));
+        evenement.set_remarque(cursor.getString(9));
+        return evenement;
     }
 }

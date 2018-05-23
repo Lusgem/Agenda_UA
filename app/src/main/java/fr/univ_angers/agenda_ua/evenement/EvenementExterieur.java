@@ -5,14 +5,14 @@ import java.util.Date;
 /**
  * Created by Thibault Condemine on 14/05/2018.
  */
-public class EventExterieur {
+public class EvenementExterieur {
     private String _titre;
     private String _lieu;
     private Date _debut;
     private Date _fin;
 
 
-    public EventExterieur(String titre, String lieu, Date debut, Date fin) {
+    public EvenementExterieur(String titre, String lieu, Date debut, Date fin) {
         this._titre = titre;
         this._lieu = lieu;
         this._debut = debut;

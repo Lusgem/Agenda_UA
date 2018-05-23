@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Event {
+public class Evenement {
 
     private Long _id; // id pour la base de donnée
     private String _personnel; // Dans la description
