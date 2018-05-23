@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import fr.univ_angers.agenda_ua.evenement.Event;
+import fr.univ_angers.agenda_ua.evenement.Evenement;
 import fr.univ_angers.agenda_ua.R;
 
 /**
@@ -46,11 +46,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Events_ViewH
         return _data.size();
     }
 
-    public void ajoute(Event event){
+    public void ajoute(Evenement evenement){
         EventAdapter.Item item = new EventAdapter.Item();
-        item._date = event.get_jour_debut() + "/" + (event.get_mois_debut() + 1) + "/" + event.get_annee_debut();
-        item._lieu = event.get_location();
-        item._detail = event.get_summary();
+        item._date = evenement.get_jour_debut() + "/" + (evenement.get_mois_debut() + 1) + "/" + evenement.get_annee_debut();
+        item._lieu = evenement.get_location();
+        item._detail = evenement.get_summary();
         _data.add(item);
         this.notifyItemInserted(_data.size() - 1);
     }

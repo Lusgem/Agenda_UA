@@ -11,7 +11,7 @@ import java.util.List;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
-import fr.univ_angers.agenda_ua.evenement.EventExterieur;
+import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 
 public class MainActivity extends WeekView {
 
@@ -22,6 +22,7 @@ public class MainActivity extends WeekView {
         List<WeekViewEvent> events = new ArrayList<>();
 
         if (GetEvents._eventsTraites != null) {
+            System.out.println("Coucou");
 
             for (int i = 0; i < GetEvents._eventsTraites.size(); i++) {
 
@@ -29,7 +30,7 @@ public class MainActivity extends WeekView {
 
                     if (GetEvents._eventsExterieur != null) {
 
-                        for (EventExterieur e : GetEvents._eventsExterieur) {
+                        for (EvenementExterieur e : GetEvents._eventsExterieur) {
                             // Comparaison avec les evenements exterieurs !
                             if (e.get_debut().getHours() >= GetEvents._eventsTraites.get(i).get_heure_debut() && e.get_fin().getHours() <= GetEvents._eventsTraites.get(i).get_heure_fin() && e.get_debut().getDate() == GetEvents._eventsTraites.get(i).get_jour_debut() && e.get_debut().getMonth() == GetEvents._eventsTraites.get(i).get_mois_debut()) {
                                 // Si il y a une occurence ajoute l'evenement exterieur au calendrier !

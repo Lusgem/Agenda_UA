@@ -9,7 +9,7 @@ import android.util.Log;
 
 import java.util.Date;
 
-import fr.univ_angers.agenda_ua.evenement.Event;
+import fr.univ_angers.agenda_ua.evenement.Evenement;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
@@ -37,7 +37,7 @@ public class EventRecyclerView extends AppCompatActivity {
 
     public void ajouteEvent(){
         Date dateActuelle = new Date();
-        for (Event e : GetEvents._eventsTraites) {
+        for (Evenement e : GetEvents._eventsTraites) {
             if (dateActuelle.getMonth() == e.get_mois_debut() && dateActuelle.getDate() <= e.get_jour_debut() && (dateActuelle.getYear()+1900) <= e.get_annee_debut()){
                 _adapter.ajoute(e);
             }else if (dateActuelle.getMonth() < e.get_mois_debut() && (dateActuelle.getYear()+1900) <= e.get_annee_debut()){

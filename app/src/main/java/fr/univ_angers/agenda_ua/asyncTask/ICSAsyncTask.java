@@ -119,7 +119,7 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
         Log.e(TAG, "Debut");
         _callback.get().onPreExecute();
         //Suppression de la base de données
-        _datasource.deleteEvent();
+        _datasource.deleteEvenements();
     }
 
     @Override
