@@ -120,30 +120,12 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     protected void onDestroy() {
         Log.i(TAG, "FormationActivity onDestroy");
         _datasource.close();
-        this.deleteDatabase("database.db");
         super.onDestroy();
     }
 
     private boolean databaseExiste(Context context, String dbName){
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
-    }
-
-    public void afficherPopup(){
-        _dialog = new Dialog(this);
-        _dialog.setContentView(R.layout.popup);
-        _dialog.show();
-    }
-
-    public void fermerPopup(){
-        _dialog.cancel();
-    }
-
-    public void popupClick(View view){
-        Intent intent = new Intent(this, FormationActivity.class);
-        startActivity(intent);
-        fermerPopup();
-        finish();
     }
 
     @Override
@@ -280,5 +262,22 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
     public com.alamkanak.weekview.WeekView getWeekView() {
         return mWeekView;
+    }
+
+    public void afficherPopup(){
+        _dialog = new Dialog(this);
+        _dialog.setContentView(R.layout.popup);
+        _dialog.show();
+    }
+
+    public void fermerPopup(){
+        _dialog.cancel();
+    }
+
+    public void popupClick(View view){
+        Intent intent = new Intent(this, FormationActivity.class);
+        startActivity(intent);
+        fermerPopup();
+        finish();
     }
 }
