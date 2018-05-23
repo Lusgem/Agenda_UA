@@ -1,9 +1,6 @@
 package fr.univ_angers.agenda_ua.matieres;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +12,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.univ_angers.agenda_ua.MainActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.Traitements.Traitement;
-import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
+import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
 public class MatieresActivity extends AppCompatActivity{
@@ -84,7 +80,7 @@ public class MatieresActivity extends AppCompatActivity{
         public void onClickMatieres(View view){
             GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
             Traitement.TraitementMatiere();
-            Intent WeekView = new Intent(this, BasicActivity.class);
+            Intent WeekView = new Intent(this, MainActivity.class);
             startActivity(WeekView);
         }
 }

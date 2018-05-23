@@ -1,15 +1,14 @@
 package fr.univ_angers.agenda_ua.classAbstraite;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.RectF;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.CalendarContract;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,29 +16,37 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import android.content.Intent;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.facebook.stetho.Stetho;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import fr.univ_angers.agenda_ua.MainActivity;
+import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
-import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
+import fr.univ_angers.agenda_ua.calendrier.MainActivity;
+import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.evenement.EventExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
 
-public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, com.alamkanak.weekview.WeekView.EventLongPressListener, com.alamkanak.weekview.WeekView.EmptyViewLongPressListener {
+public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener {
 
     private final static String TAG = Activity.class.getName();
+
+    private Dialog _dialog;
+
+    private DataSource _datasource;
 
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
@@ -47,36 +54,96 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private com.alamkanak.weekview.WeekView mWeekView;
 
-    private static int JOBSCHEDULER_ID = 200;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_week_view);
+        setContentView(R.layout.activity_main);
 
-        Log.i(TAG, "WeekView onCreate");
+        Log.i(TAG, "FormationActivity onCreate");
 
-        // Get a reference for the week view in the layout.
+        /* chrome://inspect/#devices */
+        Stetho.initializeWithDefaults(this);
+
+        _datasource = new DataSource(this);
+
+        if (!databaseExiste(this, "database.db")){
+            _datasource.open();
+            afficherPopup();
+        }
+
+        // Retourne une reference pour la vue dans le layout activity_main !
         mWeekView = (com.alamkanak.weekview.WeekView) findViewById(R.id.weekView);
 
-        // Show a toast message about the touched event.
+        // Cliquer sur un evenement affiche un toast !
         mWeekView.setOnEventClickListener(this);
 
-        // The week view has infinite scrolling horizontally. We have to provide the events of a
-        // month every time the month changes on the week view.
+        // La vue est scrollable horizontallement a l'infini. Nous fournissons les evenements
+        // a chaque changement de mois.
         mWeekView.setMonthChangeListener(this);
 
-        // Set long press listener for events.
-        mWeekView.setEventLongPressListener(this);
-
-        // Set long press listener for empty view
-        mWeekView.setEmptyViewLongPressListener(this);
-
-        // Set up a date time interpreter to interpret how the date and time will be formatted in
-        // the week view. This is optional.
+        // Personnalise l'affichage de l'heure dans la week view
         setupDateTimeInterpreter(true);
+    }
+
+    @Override
+    protected void onStart() {
+        Log.i(TAG, "FormationActivity onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.i(TAG, "FormationActivity onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.i(TAG, "FormationActivity onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i(TAG, "FormationActivity onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.i(TAG, "FormationActivity onRestart");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i(TAG, "FormationActivity onDestroy");
+        _datasource.close();
+        this.deleteDatabase("database.db");
+        super.onDestroy();
+    }
+
+    private boolean databaseExiste(Context context, String dbName){
+        File dbFile = context.getDatabasePath(dbName);
+        return dbFile.exists();
+    }
+
+    public void afficherPopup(){
+        _dialog = new Dialog(this);
+        _dialog.setContentView(R.layout.popup);
+        _dialog.show();
+    }
+
+    public void fermerPopup(){
+        _dialog.cancel();
+    }
+
+    public void popupClick(View view){
+        Intent intent = new Intent(this, FormationActivity.class);
+        startActivity(intent);
+        fermerPopup();
+        finish();
     }
 
     @Override
@@ -130,7 +197,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 }
                 return true;
             case R.id.action_parametre:
-                Intent main = new Intent(this, MainActivity.class);
+                Intent main = new Intent(this, FormationActivity.class);
                 startActivity(main);
                 return true;
             case R.id.action_taches_a_venir:
@@ -138,7 +205,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 startActivity(vue);
                 return true;
             case R.id.action_comparer_evenenement:
-                System.out.println("Coucou");
                 Date dateActuelle = new Date();
                 ArrayList<EventExterieur> array = new ArrayList<EventExterieur>();
                 Uri uri = CalendarContract.Events.CONTENT_URI;
@@ -167,7 +233,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 }
                 cursor.close();
                 GetEvents._eventsExterieur = array;
-                Intent intent = new Intent(this, BasicActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -199,7 +265,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
             @Override
             public String interpretTime(int hour) {
                 return hour + " H";
-                /*> 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM")*/
             }
         });
     }
@@ -211,16 +276,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onEmptyViewLongPress(Calendar time) {
-        Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
 
     public com.alamkanak.weekview.WeekView getWeekView() {

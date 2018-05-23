@@ -18,9 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
-import javax.security.auth.callback.Callback;
-
-import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
+import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
 
 public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
@@ -43,12 +41,12 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
     private String _groupe;
     private String _remarque;
 
-    private EventsDataSource _datasource;
+    private DataSource _datasource;
 
     private final WeakReference<Listeners> _callback;
 
 
-    public ICSAsyncTask(EventsDataSource dataSource, Listeners callback){
+    public ICSAsyncTask(DataSource dataSource, Listeners callback){
         _datasource = dataSource;
         _callback = new WeakReference<Listeners>(callback);
     }

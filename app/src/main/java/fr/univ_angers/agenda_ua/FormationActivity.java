@@ -16,26 +16,23 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
-
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
 import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
-import fr.univ_angers.agenda_ua.calendrier.BasicActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
-import fr.univ_angers.agenda_ua.dataBase.EventsDataSource;
+import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 
-public class MainActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
+public class FormationActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
 
     private final static String TAG = Activity.class.getName();
 
     private final Context context = this;
     private final GroupesAsyncTask gat = new GroupesAsyncTask();
 
-    private EventsDataSource _datasource;
+    private DataSource _datasource;
     private ArrayAdapter<Groupes> _adapter = null;
     private Groupes _groupe;
 
@@ -48,16 +45,13 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_formation);
 
-        Log.i(TAG, "MainActivity onCreate");
+        Log.i(TAG, "FormationActivity onCreate");
 
         //Création et ouverture de la base de données des evenements
-        _datasource = new EventsDataSource(this);
+        _datasource = new DataSource(this);
         _datasource.open();
-
-        /* chrome://inspect/#devices */
-        Stetho.initializeWithDefaults(this);
 
         _spinner = (Spinner) findViewById(R.id.spinner_groupes);
         _charger_groupe = (Button) findViewById(R.id.bu_click_groupes);
@@ -65,9 +59,9 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
         _charger_groupe.setEnabled(false);
 
-        configureAlarmManager();
+        //configureAlarmManager();
 
-        startAlarm();
+        //startAlarm();
 
         gat.execute(this);
 
@@ -97,39 +91,38 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
 
     @Override
     protected void onStart() {
-        Log.i(TAG, "MainActivity onStart");
+        Log.i(TAG, "FormationActivity onStart");
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        Log.i(TAG, "MainActivity onResume");
-        _datasource.open();
+        Log.i(TAG, "FormationActivity onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        Log.i(TAG, "MainActivity onPause");
+        Log.i(TAG, "FormationActivity onPause");
         _datasource.close();
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        Log.i(TAG, "MainActivity onStop");
+        Log.i(TAG, "FormationActivity onStop");
         super.onStop();
     }
 
     @Override
     protected void onRestart() {
-        Log.i(TAG, "MainActivity onRestart");
+        Log.i(TAG, "FormationActivity onRestart");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "MainActivity onDestroy");
+        Log.i(TAG, "FormationActivity onDestroy");
         super.onDestroy();
     }
 
@@ -169,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
     }
 
     private void configureAlarmManager(){
-        Intent alarmIntent = new Intent(MainActivity.this, MyAlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        Intent alarmIntent = new Intent(context, MyAlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
     }
 
     private void startAlarm() {
@@ -222,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements ICSAsyncTask.List
         System.out.println(_events.get(0));
         _datasource.deleteEvent(_events.get(0));
         GetEvents._events = _datasource.getAllEvents();
-        Intent WeekView = new Intent(this, BasicActivity.class);
-        startActivity(WeekView);
+        Intent FormationActivity = new Intent(this, MainActivity.class);
+        startActivity(FormationActivity);
 
         getCalendar();
     }*/

@@ -13,25 +13,25 @@ import fr.univ_angers.agenda_ua.evenement.Event;
 /**
  * Created by Thibault Condemine on 26/04/2018.
  */
-public class EventsDataSource {
+public class DataSource {
 
     private SQLiteDatabase _database;
-    private MySQLiteHelper _dbHelper;
+    private Tables _dbHelper;
     private String[] allColumns = {
-            MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_PERSONNEL,
-            MySQLiteHelper.COLUMN_LOCATION,
-            MySQLiteHelper.COLUMN_MATIERE,
-            MySQLiteHelper.COLUMN_GROUPE,
-            MySQLiteHelper.COLUMN_SUMMARY,
-            MySQLiteHelper.COLUMN_DATE_DEB,
-            MySQLiteHelper.COLUMN_DATE_FIN,
-            MySQLiteHelper.COLUMN_DATE_STAMP,
-            MySQLiteHelper.COLUMN_REMARQUE
+            Tables.COLONNE_ID,
+            Tables.COLONNE_PERSONNEL,
+            Tables.COLONNE_LOCATION,
+            Tables.COLONNE_MATIERE,
+            Tables.COLONNE_GROUPE,
+            Tables.COLONNE_SUMMARY,
+            Tables.COLONNE_DATE_DEB,
+            Tables.COLONNE_DATE_FIN,
+            Tables.COLONNE_DATE_STAMP,
+            Tables.COLONNE_REMARQUE
     };
 
-    public EventsDataSource(Context context){
-        _dbHelper = new MySQLiteHelper(context);
+    public DataSource(Context context){
+        _dbHelper = new Tables(context);
     }
 
     public void open() throws SQLException{
@@ -42,38 +42,31 @@ public class EventsDataSource {
         _dbHelper.close();
     }
 
-    public Event createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
+    public void createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
         // Créer un pseudo objet
         ContentValues values = new ContentValues();
         // Lui ajoute des valeurs sous forme de cle / attribut
-        values.put(MySQLiteHelper.COLUMN_PERSONNEL, personnel);
-        values.put(MySQLiteHelper.COLUMN_LOCATION, location);
-        values.put(MySQLiteHelper.COLUMN_MATIERE, matiere);
-        values.put(MySQLiteHelper.COLUMN_GROUPE, groupe);
-        values.put(MySQLiteHelper.COLUMN_SUMMARY, summary);
-        values.put(MySQLiteHelper.COLUMN_DATE_DEB, dateDeb);
-        values.put(MySQLiteHelper.COLUMN_DATE_FIN, dateFin);
-        values.put(MySQLiteHelper.COLUMN_DATE_STAMP, dateStamp);
-        values.put(MySQLiteHelper.COLUMN_REMARQUE, remarque);
+        values.put(Tables.COLONNE_PERSONNEL, personnel);
+        values.put(Tables.COLONNE_LOCATION, location);
+        values.put(Tables.COLONNE_MATIERE, matiere);
+        values.put(Tables.COLONNE_GROUPE, groupe);
+        values.put(Tables.COLONNE_SUMMARY, summary);
+        values.put(Tables.COLONNE_DATE_DEB, dateDeb);
+        values.put(Tables.COLONNE_DATE_FIN, dateFin);
+        values.put(Tables.COLONNE_DATE_STAMP, dateStamp);
+        values.put(Tables.COLONNE_REMARQUE, remarque);
 
-        //_database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
-
-        long insertId = _database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
-        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Event newEvent = cursorToEvent(cursor);
-        cursor.close();
-        return newEvent;
+        _database.insert(Tables.TABLE_EVENEMENTS, null, values);
     }
 
     public void deleteEvent(){
-        _database.delete(MySQLiteHelper.TABLE_EVENTS, null, null);
+        _database.delete(Tables.TABLE_EVENEMENTS, null, null);
     }
 
     public ArrayList<Event> getAllEvents(){
         ArrayList<Event> events = new ArrayList<>();
-        String orderBy = MySQLiteHelper.COLUMN_DATE_DEB;
-        Cursor cursor = _database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, orderBy);
+        String orderBy = Tables.COLONNE_DATE_DEB;
+        Cursor cursor = _database.query(Tables.TABLE_EVENEMENTS, allColumns, null, null, null, null, orderBy);
 
         //System.out.println(cursor.getCount());
         // Parcour du curseur !
@@ -92,7 +85,7 @@ public class EventsDataSource {
 
     public ArrayList<String> getMatieres(){
         ArrayList<String> matieres = new ArrayList<>();
-        Cursor cursor = _database.query(true,MySQLiteHelper.TABLE_EVENTS, new String[]{MySQLiteHelper.COLUMN_MATIERE},null,null,null,null,null,null); //query(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_MATIERE, null, null, null, null, null);
+        Cursor cursor = _database.query(true, Tables.TABLE_EVENEMENTS, new String[]{Tables.COLONNE_MATIERE},null,null,null,null,null,null); //query(Tables.TABLE_EVENTS, Tables.COLUMN_MATIERE, null, null, null, null, null);
 
         // Parcour du curseur !
         cursor.moveToFirst();
