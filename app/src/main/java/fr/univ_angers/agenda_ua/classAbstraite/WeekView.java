@@ -34,6 +34,7 @@ import java.util.Locale;
 
 import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
+import fr.univ_angers.agenda_ua.Traitements.Traitement;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
@@ -73,7 +74,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
         _datasource.open();
 
-        GetEvents._eventsTraites = _datasource.getAllEvenements();
+        GetEvents._evenements = _datasource.getAllEvenements();
+        Traitement.TraitementMatiere();
 
         // Retourne une reference pour la vue dans le layout activity_main !
         mWeekView = (com.alamkanak.weekview.WeekView) findViewById(R.id.weekView);
