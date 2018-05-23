@@ -187,6 +187,6 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Prof -> " + _personnel + " Matiere -> " + _matiere + " Groupe -> " + _groupe;
+        return _heure_debut+"h"+_minute_debut+" - "+_heure_fin+"h"+_minute_fin+"\n"+_summary+"\n"+_remarque;
     }
 }
