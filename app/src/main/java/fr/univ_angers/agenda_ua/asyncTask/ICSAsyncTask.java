@@ -52,12 +52,21 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
     }
 
     @Override
+    protected void onPreExecute() {
+        Log.i(TAG, "Debut");
+        _callback.get().onPreExecute();
+        if (!_datasource.evenementsVide()){
+            _datasource.supprimeEvenements();
+        }
+    }
+
+    @Override
     protected Void doInBackground(String ... strings) {
         _callback.get().doInBackground();
         try {
             URL url = new URL(strings[0]);
 
-            Log.e(TAG, "En cours d'execution sur : " + url.toString());
+            Log.i(TAG, "En cours d'execution sur : " + url.toString());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -101,7 +110,7 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
                             }
                         }
                     }
-                    _datasource.createEvent(_personnel,_location,_matiere,_groupe,_summary,_dateDebut,_dateFin,_dateStamp,_remarque);
+                    _datasource.creationEvenement(_personnel,_location,_matiere,_groupe,_summary,_dateDebut,_dateFin,_dateStamp,_remarque);
                 }
             }
         } catch (MalformedURLException e) {
@@ -115,16 +124,8 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
     }
 
     @Override
-    protected void onPreExecute() {
-        Log.e(TAG, "Debut");
-        _callback.get().onPreExecute();
-        //Suppression de la base de données
-        _datasource.deleteEvenements();
-    }
-
-    @Override
     protected void onPostExecute(Void aVoid) {
-        Log.e(TAG, "Fin");
+        Log.i(TAG, "Fin");
         _callback.get().onPostExecute();
     }
 }

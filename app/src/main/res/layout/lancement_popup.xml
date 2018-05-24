@@ -9,18 +9,20 @@
     android:layout_gravity="center">
     
     <TextView
+        android:id="@+id/lancement_popup_txt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textColor="@color/blanc"
         android:gravity="center"
-        android:text="@string/popoup_text"/>
+        android:text="@string/lancement_popoup_text"/>
 
     <Button
+        android:id="@+id/lancement_popup_bt"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:onClick="popupClick"
-        android:text="@string/popup_button"/>
+        android:text="@string/lancement_popup_button"/>
 
 </LinearLayout>

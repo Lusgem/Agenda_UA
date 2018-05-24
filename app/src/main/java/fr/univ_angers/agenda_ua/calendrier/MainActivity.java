@@ -1,6 +1,10 @@
 package fr.univ_angers.agenda_ua.calendrier;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.alamkanak.weekview.WeekViewEvent;
 
@@ -8,21 +12,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
+import fr.univ_angers.agenda_ua.dataBase.Tables;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 
 public class MainActivity extends WeekView {
 
     private final static String TAG = Activity.class.getName();
 
+    private ProgressBar _progressBar;
+
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> events = new ArrayList<>();
 
         if (GetEvents._eventsTraites != null) {
-            System.out.println("Coucou");
 
             for (int i = 0; i < GetEvents._eventsTraites.size(); i++) {
 
@@ -67,4 +74,30 @@ public class MainActivity extends WeekView {
         }
         return events;
     }
+
+    @Override
+    public void onPreExecute() {
+        _progressBar = (ProgressBar)findViewById(R.id.weekView_pb);
+        updateUIAvantTache();
+    }
+
+    @Override
+    public void doInBackground() {
+
+    }
+
+    @Override
+    public void onPostExecute() {
+        updateUIApresTache();
+    }
+
+    public void updateUIAvantTache(){
+        _progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void updateUIApresTache(){
+        _progressBar.setVisibility(View.GONE);
+    }
+
+
 }

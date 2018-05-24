@@ -2,6 +2,7 @@ package fr.univ_angers.agenda_ua;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +15,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.concurrent.ExecutionException;
 
-import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
 import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
@@ -28,17 +29,18 @@ import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 public class FormationActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
 
     private final static String TAG = Activity.class.getName();
+    private static final int MATIERESACTIVITY_REQUEST_CODE = 50;
 
     private final Context context = this;
-    private final GroupesAsyncTask gat = new GroupesAsyncTask();
 
     private DataSource _datasource;
-    private ArrayAdapter<Groupes> _adapter = null;
-    private Groupes _groupe;
+    private ArrayAdapter<Formation> _adapter = null;
+    private Formation _groupe;
 
     private Spinner _spinner;
-    private Button _charger_groupe;
+    private Button _suivant;
     private ProgressBar _progressBar;
+    private Dialog _dialog;
 
     private PendingIntent pendingIntent;
 
@@ -49,37 +51,22 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
 
         Log.i(TAG, "FormationActivity onCreate");
 
-        //Création et ouverture de la base de données des evenements
         _datasource = new DataSource(this);
         _datasource.open();
 
         _spinner = (Spinner) findViewById(R.id.spinner_groupes);
-        _charger_groupe = (Button) findViewById(R.id.bu_click_groupes);
+        _suivant = (Button) findViewById(R.id.bu_click_groupes);
         _progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
 
-        _charger_groupe.setEnabled(false);
 
-        //configureAlarmManager();
-
-        //startAlarm();
-
-        gat.execute(this);
-
-        try {
-            _adapter = gat.get();
-            _spinner.setAdapter(_adapter);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        ArrayList <Formation> formations = _datasource.getAllFormation();
+        _adapter = new ArrayAdapter<Formation>(this, android.R.layout.simple_spinner_dropdown_item, formations);
+        _spinner.setAdapter(_adapter);
 
         _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                _groupe = (Groupes) parent.getSelectedItem();
-                _charger_groupe.setEnabled(true);
+                _groupe = (Formation) parent.getSelectedItem();
                 //Toast.makeText(context, "Lien : " + _groupe.get_lien() + ",  Groupe : " + _groupe.get_intitule(), Toast.LENGTH_LONG).show();
             }
 
@@ -99,6 +86,7 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     protected void onResume() {
         Log.i(TAG, "FormationActivity onResume");
         super.onResume();
+        _datasource.open();
     }
 
     @Override
@@ -112,6 +100,7 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     protected void onStop() {
         Log.i(TAG, "FormationActivity onStop");
         super.onStop();
+        _datasource.close();
     }
 
     @Override
@@ -127,16 +116,14 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     }
 
     public void onClickGroups(View view){
-        final ICSAsyncTask xat = new ICSAsyncTask(_datasource, this);
-        String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
-        GetEvents._url = url;
-        xat.execute(url);
+        afficherPopup();
     }
 
     @Override
     public void onPreExecute() {
         updateUIAvantTache();
-        _charger_groupe.setEnabled(false);
+        _suivant.setEnabled(false);
+        fermerPopup();
     }
 
     @Override
@@ -147,9 +134,10 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
         updateUIApresTache();
         GetEvents._evenements = _datasource.getAllEvenements();
         GetEvents._listeMatieres = _datasource.getMatieres();
-        Intent Matiereactivity = new Intent(this, MatieresActivity.class);
-        startActivity(Matiereactivity);
-        _charger_groupe.setEnabled(true);
+        Intent matiere = new Intent(this, MatieresActivity.class);
+        startActivity(matiere);
+        _suivant.setEnabled(true);
+        finish();
     }
 
     public void updateUIAvantTache(){
@@ -158,7 +146,32 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
 
     public void updateUIApresTache(){
         _progressBar.setVisibility(View.GONE);
-        _charger_groupe.setEnabled(true);
+        _suivant.setEnabled(true);
+    }
+
+    public void afficherPopup(){
+        TextView tv;
+        _dialog = new Dialog(this);
+        _dialog.setContentView(R.layout.verification_popup);
+        tv = (TextView)_dialog.findViewById(R.id.verification_popup_txt);
+        tv.setText(_groupe.get_intitule());
+        _dialog.show();
+    }
+
+    public void fermerPopup(){
+        _dialog.cancel();
+    }
+
+    public void popup_annuler(View view){
+        fermerPopup();
+    }
+
+    public void popup_valider(View view){
+        final ICSAsyncTask xat = new ICSAsyncTask(_datasource, this);
+        String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
+        GetEvents._url = url;
+        xat.execute(url);
+        _datasource.creationUtilisateur(_groupe.get_lien(), "");
     }
 
     private void configureAlarmManager(){
@@ -182,47 +195,4 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
         manager.cancel(pendingIntent);
         Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
     }
-
-    /*public String normURL(String _url) {
-        if (!(_url.substring(0, 7).equalsIgnoreCase("http://"))) {
-            _url = "http://" + _url;
-        }
-        if (_url.substring(_url.length() - 4).equalsIgnoreCase(".xml")) {
-            _url = _url.substring(0, _url.length() - 4) + ".ics";
-        }
-        return _url;
-    }*/
-
-    /*public void onClick(View view) {
-        final ICSAsyncTask xat = new ICSAsyncTask(_datasource);
-        String chaine = _etLinkMain.getText().toString();
-        System.out.println(chaine.substring(chaine.length() - 4));
-        chaine = normURL(chaine);
-        if (chaine.substring(chaine.length() - 4).equalsIgnoreCase(".ics")) {
-            xat.execute(chaine);
-        } else {
-            Toast.makeText(this, "Entrez un .ics", Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
-    /*public void onData(View view) {
-        s_evenements = _datasource.getAllEvenements();
-
-        for (Evenement e : s_evenements){
-            System.out.println(e.toString());
-        }
-
-        System.out.println(s_evenements.get(0));
-        _datasource.deleteEvenements(s_evenements.get(0));
-        GetEvents.s_evenements = _datasource.getAllEvenements();
-        Intent FormationActivity = new Intent(this, MainActivity.class);
-        startActivity(FormationActivity);
-
-        getCalendar();
-    }*/
-
-    /*public void onClickGroup(View view){
-        Intent GroupeActivity = new Intent(this, GroupesActivity.class);
-        startActivity(GroupeActivity);
-    }*/
 }

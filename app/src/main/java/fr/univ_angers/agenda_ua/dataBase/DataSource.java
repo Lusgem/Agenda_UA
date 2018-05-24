@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
+import fr.univ_angers.agenda_ua.Formation;
+import fr.univ_angers.agenda_ua.Utilisateur;
 import fr.univ_angers.agenda_ua.evenement.Evenement;
 
 /**
@@ -31,6 +33,18 @@ public class DataSource {
             Tables.COLONNE_REMARQUE
     };
 
+    private String[] colonnesFormation = {
+            Tables.COLONNE_ID_FORMATION,
+            Tables.COLONNE_FORMATION,
+            Tables.COLONNE_LIEN
+    };
+
+    private String[] colonnesUtilisateur = {
+            Tables.COLONNE_ID_UTILISATEUR,
+            Tables.COLONNE_LIEN_UTILISATEUR,
+            Tables.COLONNE_FORMATION_UTILISATEUR
+    };
+
     public DataSource(Context context){
         _dbHelper = new Tables(context);
     }
@@ -43,7 +57,7 @@ public class DataSource {
         _dbHelper.close();
     }
 
-    public void createEvent(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
+    public void creationEvenement(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
         // Créer un pseudo objet
         ContentValues values = new ContentValues();
         // Lui ajoute des valeurs sous forme de cle / attribut
@@ -60,8 +74,68 @@ public class DataSource {
         _database.insert(Tables.TABLE_EVENEMENTS, null, values);
     }
 
-    public void deleteEvenements(){
+    public void creationFormation(String formation, String lien){
+        ContentValues values = new ContentValues();
+        values.put(Tables.COLONNE_FORMATION, formation);
+        values.put(Tables.COLONNE_LIEN, lien);
+
+        _database.insert(Tables.TABLE_FORMATIONS, null, values);
+    }
+
+    public void creationUtilisateur(String lien, String formation){
+        ContentValues values = new ContentValues();
+        values.put(Tables.COLONNE_LIEN_UTILISATEUR, lien);
+        values.put(Tables.COLONNE_FORMATION_UTILISATEUR, formation);
+
+        _database.insert(Tables.TABLE_UTILISATEUR, null, values);
+    }
+
+    public void supprimeEvenements(){
         _database.delete(Tables.TABLE_EVENEMENTS, null, null);
+    }
+
+    public void supprimeFormations(){
+        _database.delete(Tables.TABLE_FORMATIONS, null, null);
+    }
+
+    public void supprimeUtilisateurs(){
+        _database.delete(Tables.TABLE_UTILISATEUR, null, null);
+    }
+
+    public boolean evenementsVide(){
+        String count = "SELECT count(*) FROM " + Tables.TABLE_EVENEMENTS;
+        Cursor cursor = _database.rawQuery(count, null);
+        cursor.moveToFirst();
+        int icount = cursor.getInt(0);
+        if(icount>0){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    public boolean formationVide(){
+        String count = "SELECT count(*) FROM " + Tables.TABLE_FORMATIONS;
+        Cursor cursor = _database.rawQuery(count, null);
+        cursor.moveToFirst();
+        int icount = cursor.getInt(0);
+        if(icount>0){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    public boolean utilisateurVide(){
+        String count = "SELECT count(*) FROM " + Tables.TABLE_UTILISATEUR;
+        Cursor cursor = _database.rawQuery(count, null);
+        cursor.moveToFirst();
+        int icount = cursor.getInt(0);
+        if(icount>0){
+            return false;
+        } else{
+            return true;
+        }
     }
 
     public ArrayList<Evenement> getAllEvenements(){
@@ -79,8 +153,38 @@ public class DataSource {
 
         // Fermeture du curseur !
         cursor.close();
-        getMatieres();
         return evenements;
+    }
+
+    public ArrayList<Formation> getAllFormation(){
+        ArrayList<Formation> formations = new ArrayList<>();
+        String orderBy = Tables.COLONNE_FORMATION;
+        Cursor cursor = _database.query(Tables.TABLE_FORMATIONS, colonnesFormation, null, null, null, null, orderBy);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            Formation formation = cursorFormations(cursor);
+            formations.add(formation);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return formations;
+    }
+
+    public ArrayList<Utilisateur> getAllUtilisateur(){
+        ArrayList<Utilisateur> utilisateurs = new ArrayList<>();
+        Cursor cursor = _database.query(Tables.TABLE_UTILISATEUR, colonnesUtilisateur, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            Utilisateur utilisateur = cursorUtilisateur(cursor);
+            utilisateurs.add(utilisateur);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return utilisateurs;
     }
 
     public ArrayList<String> getMatieres(){
@@ -92,7 +196,7 @@ public class DataSource {
         while (!cursor.isAfterLast()){
             String matiere = cursor.getString(0);
             if (matiere!=null)
-            matieres.add(matiere);
+                matieres.add(matiere);
             cursor.moveToNext();
         }
 
@@ -115,5 +219,15 @@ public class DataSource {
         evenement.set_date_stamp(cursor.getString(8));
         evenement.set_remarque(cursor.getString(9));
         return evenement;
+    }
+
+    private Formation cursorFormations(Cursor cursor){
+        Formation formation = new Formation(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        return formation;
+    }
+
+    private Utilisateur cursorUtilisateur(Cursor cursor){
+        Utilisateur utilisateur = new Utilisateur(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        return utilisateur;
     }
 }

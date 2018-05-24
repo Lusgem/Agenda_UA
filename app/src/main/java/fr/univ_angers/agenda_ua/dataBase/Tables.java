@@ -11,7 +11,7 @@ import android.util.Log;
 public class Tables extends SQLiteOpenHelper {
 
     // Version et nom de la base de données
-    private static final String DATABASE_NAME = "database.db";
+    public static final String DATABASE_NAME = "database.db";
     private static final int DATABASE_VERSION = 1;
 
     // Nom des tables
@@ -34,6 +34,7 @@ public class Tables extends SQLiteOpenHelper {
     // Colonnes de la table formations
     public static final String COLONNE_ID_FORMATION = "_id";
     public static final String COLONNE_FORMATION = "formation";
+    public static final String COLONNE_LIEN = "lien";
 
     // Colonnes de la table utilisateur
     public static final String COLONNE_ID_UTILISATEUR = "_id";
@@ -56,7 +57,8 @@ public class Tables extends SQLiteOpenHelper {
     // Creation de la table formation
     private static final String DATABASE_FORMATIONS = "create table " + TABLE_FORMATIONS + "("
             + COLONNE_ID_FORMATION + " integer primary key autoincrement, "
-            + COLONNE_FORMATION + ");";
+            + COLONNE_FORMATION + ", "
+            + COLONNE_LIEN + ");";
 
     // Creation de la table utilisateur
     private static final String DATABASE_UTILISATEUR = "create table " + TABLE_UTILISATEUR + "("

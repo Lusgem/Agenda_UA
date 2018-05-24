@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/verification_popup_txt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/blanc"
+        android:gravity="center"
+        tools:text="Nom de la formation ............."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/verification_popup_bt_annuler"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:gravity="center"
+            android:onClick="popup_annuler"
+            android:text="@string/verification_popup_button_annuler"/>
+
+        <Button
+            android:id="@+id/verification_popup_bt_valider"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:onClick="popup_valider"
+            android:text="@string/verification_popup_button_valider"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -35,19 +35,17 @@ import java.util.Locale;
 import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.Traitements.Traitement;
+import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
+import fr.univ_angers.agenda_ua.dataBase.Tables;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
 
-public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener {
+public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, GroupesAsyncTask.Listeners{
 
     private final static String TAG = Activity.class.getName();
-
-    private Dialog _dialog;
-
-    private DataSource _datasource;
 
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
@@ -55,35 +53,36 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private com.alamkanak.weekview.WeekView mWeekView;
 
+    private DataSource _dataSource;
+    private Dialog _dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_weekview);
 
         Log.i(TAG, "WeekView onCreate");
 
-        /* chrome://inspect/#devices */
-        Stetho.initializeWithDefaults(this);
+        _dataSource = new DataSource(this);
 
-        _datasource = new DataSource(this);
+        // Premier lancement de l'application
+        if (!databaseExiste(this, Tables.DATABASE_NAME)){
+            /* chrome://inspect/#devices */
+            Stetho.initializeWithDefaults(this);
 
-        if (!databaseExiste(this, "database.db")){
+            _dataSource.open();
+            GroupesAsyncTask groupes = new GroupesAsyncTask(_dataSource, this);
+            groupes.execute();
             afficherPopup();
         }
 
-        _datasource.open();
-
-        GetEvents._evenements = _datasource.getAllEvenements();
-        Traitement.TraitementMatiere();
-
-        // Retourne une reference pour la vue dans le layout activity_main !
+        // Retourne une reference pour la week view dans le layout activity_weekview !
         mWeekView = (com.alamkanak.weekview.WeekView) findViewById(R.id.weekView);
 
         // Cliquer sur un evenement affiche un toast !
         mWeekView.setOnEventClickListener(this);
 
-        // La vue est scrollable horizontallement a l'infini. Nous fournissons les evenements
+        // La week view est scrollable horizontallement a l'infini. Nous fournissons les evenements
         // a chaque changement de mois.
         mWeekView.setMonthChangeListener(this);
 
@@ -100,8 +99,10 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     @Override
     protected void onResume() {
         Log.i(TAG, "WeekView onResume");
-        _datasource.open();
         super.onResume();
+        _dataSource.open();
+        GetEvents._evenements = _dataSource.getAllEvenements();
+        Traitement.TraitementMatiere();
     }
 
     @Override
@@ -114,6 +115,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     protected void onStop() {
         Log.i(TAG, "WeekView onStop");
         super.onStop();
+        _dataSource.close();
     }
 
     @Override
@@ -125,13 +127,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     @Override
     protected void onDestroy() {
         Log.i(TAG, "WeekView onDestroy");
-        _datasource.close();
         super.onDestroy();
-    }
-
-    private boolean databaseExiste(Context context, String dbName){
-        File dbFile = context.getDatabasePath(dbName);
-        return dbFile.exists();
     }
 
     @Override
@@ -187,6 +183,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
             case R.id.action_parametre:
                 Intent main = new Intent(this, FormationActivity.class);
                 startActivity(main);
+                WeekView.this.finish();
                 return true;
             case R.id.action_taches_a_venir:
                 Intent vue = new Intent(this, EventRecyclerView.class);
@@ -272,7 +269,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
     public void afficherPopup(){
         _dialog = new Dialog(this);
-        _dialog.setContentView(R.layout.popup);
+        _dialog.setContentView(R.layout.lancement_popup);
         _dialog.show();
     }
 
@@ -285,5 +282,10 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         startActivity(intent);
         fermerPopup();
         finish();
+    }
+
+    public boolean databaseExiste(Context context, String dbName){
+        File dbFile = context.getDatabasePath(dbName);
+        return dbFile.exists();
     }
 }

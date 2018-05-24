@@ -25,6 +25,7 @@
         <activity android:name=".FormationActivity" />
         <activity android:name=".recyclerView.EventRecyclerView" />
         <activity android:name=".matieres.MatieresActivity"/>
+
         <receiver
             android:name=".MyAlarmReceiver"
             android:exported="true"/>

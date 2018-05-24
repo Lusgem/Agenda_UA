@@ -3,19 +3,19 @@ package fr.univ_angers.agenda_ua;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Objects;
+public class Formation implements Parcelable{
 
-public class Groupes implements Parcelable{
-
+    private Long _id;
     private String _intitule;
     private String _lien;
 
-    public Groupes(String intitule, String lien) {
+    public Formation(Long id , String intitule, String lien) {
+        _id = id;
         this._intitule = intitule;
         this._lien = lien;
     }
 
-    protected Groupes(Parcel in) {
+    protected Formation(Parcel in) {
         _intitule = in.readString();
         _lien = in.readString();
     }
@@ -43,8 +43,8 @@ public class Groupes implements Parcelable{
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Groupes){
-            Groupes c = (Groupes) obj;
+        if (obj instanceof Formation){
+            Formation c = (Formation) obj;
             if (c.get_intitule().equals(_intitule) && c.get_lien().equals(_lien)) {
                 return true;
             }
@@ -52,15 +52,15 @@ public class Groupes implements Parcelable{
         return false;
     }
 
-    public static final Creator<Groupes> CREATOR = new Creator<Groupes>() {
+    public static final Creator<Formation> CREATOR = new Creator<Formation>() {
         @Override
-        public Groupes createFromParcel(Parcel in) {
-            return new Groupes(in);
+        public Formation createFromParcel(Parcel in) {
+            return new Formation(in);
         }
 
         @Override
-        public Groupes[] newArray(int size) {
-            return new Groupes[size];
+        public Formation[] newArray(int size) {
+            return new Formation[size];
         }
     };
 
