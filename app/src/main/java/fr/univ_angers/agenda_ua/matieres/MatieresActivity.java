@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,14 @@ import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.Traitements.Traitement;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
+import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
 public class MatieresActivity extends AppCompatActivity{
 
     private final static String TAG = Activity.class.getName();
     public static final String BUNDLE = "BUNDLE";
 
+    private DataSource _datasource;
     private Button _btn_valider_matieres;
     private ArrayList<String> _listeMatiereAEnlever = new ArrayList<>();
 
@@ -124,6 +128,12 @@ public class MatieresActivity extends AppCompatActivity{
 
     public void onClickMatieres(View view){
         GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
+        Gson gson = new Gson();
+        String inputString= gson.toJson(_listeMatiereAEnlever);
+        _datasource = new DataSource(this);
+        _datasource.open();
+        _datasource.updateUtilisateur(1,inputString);
+        _datasource.close();
         Traitement.TraitementMatiere();
         Intent WeekView = new Intent(this, MainActivity.class);
         startActivity(WeekView);

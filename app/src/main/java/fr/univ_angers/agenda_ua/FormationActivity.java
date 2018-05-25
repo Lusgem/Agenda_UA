@@ -112,6 +112,7 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     protected void onDestroy() {
         Log.i(TAG, "FormationActivity onDestroy");
         super.onDestroy();
+        _datasource.close();
     }
 
     public void onClickGroups(View view){

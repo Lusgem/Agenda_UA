@@ -28,8 +28,11 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.facebook.stetho.Stetho;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +42,7 @@ import java.util.Locale;
 import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.Traitements.Traitement;
+import fr.univ_angers.agenda_ua.Utilisateur;
 import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
@@ -104,6 +108,16 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         Log.i(TAG, "WeekView onResume");
         super.onResume();
         _dataSource.open();
+        if (!_dataSource.utilisateurVide()){
+            Gson gson = new Gson();
+            ArrayList<Utilisateur> uti = _dataSource.getAllUtilisateur();
+            String form = uti.get(0).get_formation();
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            ArrayList<String> finalOutputString = gson.fromJson(form, type);
+            for (String s : finalOutputString) {
+                System.out.println(s);
+            }
+        }
         GetEvents._evenements = _dataSource.getAllEvenements();
         Traitement.TraitementMatiere();
     }

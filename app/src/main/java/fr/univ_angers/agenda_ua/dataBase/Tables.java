@@ -37,7 +37,7 @@ public class Tables extends SQLiteOpenHelper {
     public static final String COLONNE_LIEN = "lien";
 
     // Colonnes de la table utilisateur
-    public static final String COLONNE_ID_UTILISATEUR = "_id";
+    //public static final String COLONNE_ID_UTILISATEUR = "_id";
     public static final String COLONNE_LIEN_UTILISATEUR = "lien";
     public static final String COLONNE_FORMATION_UTILISATEUR = "formation";
 
@@ -62,7 +62,7 @@ public class Tables extends SQLiteOpenHelper {
 
     // Creation de la table utilisateur
     private static final String DATABASE_UTILISATEUR = "create table " + TABLE_UTILISATEUR + "("
-            + COLONNE_ID_UTILISATEUR + " integer primary key autoincrement, "
+            //+ COLONNE_ID_UTILISATEUR + " integer primary key autoincrement, "
             + COLONNE_LIEN_UTILISATEUR + ", "
             + COLONNE_FORMATION_UTILISATEUR + ");";
 

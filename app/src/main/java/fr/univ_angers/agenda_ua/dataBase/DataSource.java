@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class DataSource {
     };
 
     private String[] colonnesUtilisateur = {
-            Tables.COLONNE_ID_UTILISATEUR,
+            //Tables.COLONNE_ID_UTILISATEUR,
             Tables.COLONNE_LIEN_UTILISATEUR,
             Tables.COLONNE_FORMATION_UTILISATEUR
     };
@@ -88,6 +89,13 @@ public class DataSource {
         values.put(Tables.COLONNE_FORMATION_UTILISATEUR, formation);
 
         _database.insert(Tables.TABLE_UTILISATEUR, null, values);
+    }
+
+    public void updateUtilisateur(int id, String formation){
+        ContentValues values = new ContentValues();
+        values.put(Tables.COLONNE_FORMATION_UTILISATEUR, formation);
+
+        _database.update(Tables.TABLE_UTILISATEUR, values, "rowid="+id, null);
     }
 
     public void supprimeEvenements(){
@@ -227,7 +235,7 @@ public class DataSource {
     }
 
     private Utilisateur cursorUtilisateur(Cursor cursor){
-        Utilisateur utilisateur = new Utilisateur(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        Utilisateur utilisateur = new Utilisateur(1, cursor.getString(0), cursor.getString(1));
         return utilisateur;
     }
 }
