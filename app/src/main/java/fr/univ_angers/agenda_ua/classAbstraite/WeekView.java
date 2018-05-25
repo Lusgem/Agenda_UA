@@ -193,7 +193,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
             case R.id.action_comparer_evenenement:
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED){
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)){
-                        System.out.println("Merci bien ...");
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, MY_PERMISSIONS_REQUEST_READ_CALENDAR);
                     }else {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, MY_PERMISSIONS_REQUEST_READ_CALENDAR);
                     }
@@ -215,7 +215,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     comparerEvenements();
                 } else {
                     // La permission est refusée
-
                 }
                 return;
             }
