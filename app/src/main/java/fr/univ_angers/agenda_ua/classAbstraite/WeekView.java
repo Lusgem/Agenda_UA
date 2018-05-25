@@ -2,8 +2,10 @@ package fr.univ_angers.agenda_ua.classAbstraite;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.RectF;
@@ -214,7 +216,23 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     // La permission est garantie
                     comparerEvenements();
                 } else {
-                    // La permission est refusée
+// 1. Instantiate an AlertDialog.Builder with its constructor
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+// 2. Chain together various setter methods to set the dialog characteristics
+                    builder.setMessage("Alert !")
+                            .setTitle("Vous ne pourrez pas utiliser cette fonctionnalité !");
+
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK button
+                            dialog.cancel();
+                        }
+                    });
+
+// 3. Get the AlertDialog from create()
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
                 return;
             }
