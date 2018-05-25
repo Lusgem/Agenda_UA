@@ -170,6 +170,9 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
         String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
         GetEvents._url = url;
         xat.execute(url);
+        if (!_datasource.utilisateurVide()){
+            _datasource.supprimeUtilisateurs();
+        }
         _datasource.creationUtilisateur(_groupe.get_lien(), "");
     }
 

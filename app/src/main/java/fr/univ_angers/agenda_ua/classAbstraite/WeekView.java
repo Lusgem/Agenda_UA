@@ -220,8 +220,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 // 2. Chain together various setter methods to set the dialog characteristics
-                    builder.setMessage("Alert !")
-                            .setTitle("Vous ne pourrez pas utiliser cette fonctionnalité !");
+                    builder.setMessage("Vous ne pourrez pas utiliser cette fonctionnalité !")
+                            .setTitle("Attention !");
 
                     builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -302,7 +302,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, event.getName(), Toast.LENGTH_SHORT).show();
     }
 
     public com.alamkanak.weekview.WeekView getWeekView() {
