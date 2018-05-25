@@ -9,7 +9,9 @@ import android.database.Cursor;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +40,6 @@ import fr.univ_angers.agenda_ua.Traitements.Traitement;
 import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
-import fr.univ_angers.agenda_ua.dataBase.Tables;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
@@ -46,6 +47,7 @@ import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, GroupesAsyncTask.Listeners{
 
     private final static String TAG = Activity.class.getName();
+    private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
 
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
@@ -64,16 +66,15 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         Log.i(TAG, "WeekView onCreate");
 
         _dataSource = new DataSource(this);
+        _dataSource.open();
 
         // Premier lancement de l'application
-        if (!databaseExiste(this, Tables.DATABASE_NAME)){
+        if (_dataSource.formationVide()){
             /* chrome://inspect/#devices */
             Stetho.initializeWithDefaults(this);
 
-            _dataSource.open();
             GroupesAsyncTask groupes = new GroupesAsyncTask(_dataSource, this);
             groupes.execute();
-            afficherPopup();
         }
 
         // Retourne une reference pour la week view dans le layout activity_weekview !
@@ -190,40 +191,64 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 startActivity(vue);
                 return true;
             case R.id.action_comparer_evenenement:
-                Date dateActuelle = new Date();
-                ArrayList<EvenementExterieur> array = new ArrayList<EvenementExterieur>();
-                Uri uri = CalendarContract.Events.CONTENT_URI;
-                String[] projection = new String[]{CalendarContract.Events.TITLE, CalendarContract.Events.EVENT_LOCATION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
-
-
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, 1);
-                }
-
-                Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-                System.out.println(cursor.getCount());
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()){
-                    String titre = cursor.getString(0);
-                    String lieu = cursor.getString(1);
-                    Date debut = new Date(cursor.getLong(2));
-                    Date fin = new Date(cursor.getLong(3));
-
-                    if ((dateActuelle.compareTo(debut) < 0 || dateActuelle.compareTo(debut)== 0) && debut.getHours() != 0) {
-                        EvenementExterieur event = new EvenementExterieur(titre, lieu, debut, fin);
-                        System.out.println(event.toString());
-                        array.add(event);
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED){
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)){
+                        System.out.println("Merci bien ...");
+                    }else {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, MY_PERMISSIONS_REQUEST_READ_CALENDAR);
                     }
-                    cursor.moveToNext();
+                }else {
+                    comparerEvenements();
                 }
-                cursor.close();
-                GetEvents._eventsExterieur = array;
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CALENDAR: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // La permission est garantie
+                    comparerEvenements();
+                } else {
+                    // La permission est refusée
+
+                }
+                return;
+            }
+        }
+    }
+
+    public void comparerEvenements(){
+        Date dateActuelle = new Date();
+        ArrayList<EvenementExterieur> array = new ArrayList<EvenementExterieur>();
+        Uri uri = CalendarContract.Events.CONTENT_URI;
+        String[] projection = new String[]{CalendarContract.Events.TITLE, CalendarContract.Events.EVENT_LOCATION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
+
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        System.out.println(cursor.getCount());
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            String titre = cursor.getString(0);
+            String lieu = cursor.getString(1);
+            Date debut = new Date(cursor.getLong(2));
+            Date fin = new Date(cursor.getLong(3));
+
+            if ((dateActuelle.compareTo(debut) < 0 || dateActuelle.compareTo(debut)== 0) && debut.getHours() != 0) {
+                EvenementExterieur event = new EvenementExterieur(titre, lieu, debut, fin);
+                System.out.println(event.toString());
+                array.add(event);
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        GetEvents._eventsExterieur = array;
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**
@@ -267,25 +292,22 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         return mWeekView;
     }
 
-    public void afficherPopup(){
+    public void afficherPopupLancement(){
         _dialog = new Dialog(this);
-        _dialog.setContentView(R.layout.lancement_popup);
-        _dialog.show();
+        _dialog.setContentView(R.layout.popup_lancement);
+        if (_dataSource.evenementsVide()){
+            _dialog.show();
+        }
     }
 
-    public void fermerPopup(){
+    public void fermerPopupLancement(){
         _dialog.cancel();
     }
 
     public void popupClick(View view){
         Intent intent = new Intent(this, FormationActivity.class);
         startActivity(intent);
-        fermerPopup();
+        fermerPopupLancement();
         finish();
-    }
-
-    public boolean databaseExiste(Context context, String dbName){
-        File dbFile = context.getDatabasePath(dbName);
-        return dbFile.exists();
     }
 }

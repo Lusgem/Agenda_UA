@@ -13,11 +13,11 @@
     <string name="title_activity_asynchronous">Asynchronous Events</string>
     <string name="async_error">Could not download evenements from the internet</string>
 
-    <!-- Layout lancement_popup -->
+    <!-- Layout popup_lancement -->
     <string name="lancement_popoup_text">Merci de paramétrer l\'application.</string>
     <string name="lancement_popup_button">Suivez le guide</string>
 
-    <!-- Layout verification_popup -->
+    <!-- Layout popup_verification -->
     <string name="verification_popup_button_annuler">Annuler</string>
     <string name="verification_popup_button_valider">Valider</string>
 

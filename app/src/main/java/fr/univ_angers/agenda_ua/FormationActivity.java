@@ -29,7 +29,6 @@ import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 public class FormationActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
 
     private final static String TAG = Activity.class.getName();
-    private static final int MATIERESACTIVITY_REQUEST_CODE = 50;
 
     private final Context context = this;
 
@@ -152,7 +151,7 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     public void afficherPopup(){
         TextView tv;
         _dialog = new Dialog(this);
-        _dialog.setContentView(R.layout.verification_popup);
+        _dialog.setContentView(R.layout.popup_verification);
         tv = (TextView)_dialog.findViewById(R.id.verification_popup_txt);
         tv.setText(_groupe.get_intitule());
         _dialog.show();

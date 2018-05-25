@@ -1,8 +1,6 @@
 package fr.univ_angers.agenda_ua.calendrier;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -12,11 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
-import fr.univ_angers.agenda_ua.dataBase.Tables;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 
 public class MainActivity extends WeekView {
@@ -89,6 +85,7 @@ public class MainActivity extends WeekView {
     @Override
     public void onPostExecute() {
         updateUIApresTache();
+        afficherPopupLancement();
     }
 
     public void updateUIAvantTache(){
