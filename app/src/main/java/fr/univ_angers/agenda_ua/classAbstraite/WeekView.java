@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import fr.univ_angers.agenda_ua.EventActivity;
 import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.Traitements.Traitement;
@@ -54,6 +55,10 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
     private final static String TAG = Activity.class.getName();
     private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
+    public final static String EVENT_LOCATION = "EVENT_LOCATION";
+    public final static String EVENT_DETAILS = "EVENT_DETAILS";
+    public final static String EVENT_DATE = "EVENT_DATE";
+    public final static String EVENT_RESUME = "EVENT_RESUME";
 
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
@@ -314,9 +319,18 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         return String.format("Evenement of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
     }
 
+    private String toString_Date(Date datedebut,Date datefin){
+        return datedebut.getDate()+"/"+(datedebut.getMonth()+1)+"/"+(datedebut.getYear()+1900)+" de "+datedebut.getHours()+"h"+datedebut.getMinutes()+" à "+datefin.getHours()+"h"+datefin.getMinutes();
+
+    }
+
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, event.getName(), Toast.LENGTH_SHORT).show();
+        Intent eventview = new Intent(this, EventActivity.class);
+        eventview.putExtra(EVENT_DATE,toString_Date(event.getStartTime().getTime(),event.getEndTime().getTime()));
+        eventview.putExtra(EVENT_LOCATION,event.getLocation().toString());
+        eventview.putExtra(EVENT_RESUME,event.getName());
+        startActivity(eventview);
     }
 
     public com.alamkanak.weekview.WeekView getWeekView() {

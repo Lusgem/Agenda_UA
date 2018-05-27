@@ -19,17 +19,19 @@
         <activity android:name=".calendrier.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".FormationActivity" />
         <activity android:name=".recyclerView.EventRecyclerView" />
-        <activity android:name=".matieres.MatieresActivity"/>
+        <activity android:name=".matieres.MatieresActivity" />
 
         <receiver
             android:name=".MyAlarmReceiver"
-            android:exported="true"/>
+            android:exported="true" />
 
+        <activity android:name=".EventActivity"></activity>
     </application>
 
 </manifest>

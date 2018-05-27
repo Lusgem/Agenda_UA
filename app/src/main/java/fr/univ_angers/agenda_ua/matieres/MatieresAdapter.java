@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -58,25 +57,15 @@ public class MatieresAdapter extends BaseAdapter {
         }else
         {
             convertView = View.inflate(ctx, R.layout.matieres_item, null);
-
             CheckBox listItemCheckbox = (CheckBox) convertView.findViewById(R.id.list_view_item_checkbox);
-
-            //TextView listItemText = (TextView) convertView.findViewById(R.id.list_view_item_text);
-
             viewHolder = new MatieresViewHolder(convertView);
-
             viewHolder.setItemCheckbox(listItemCheckbox);
-
-            //viewHolder.setItemTextView(listItemText);
-
             convertView.setTag(viewHolder);
         }
 
         MatieresListViewItem listViewItemDto = listViewItemDtoList.get(itemIndex);
         viewHolder.getItemCheckbox().setChecked(listViewItemDto.isChecked());
         viewHolder.getItemCheckbox().setText(listViewItemDto.getItemText());
-
-
         return convertView;
     }
 }
