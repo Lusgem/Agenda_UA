@@ -91,15 +91,18 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         // Retourne une reference pour la week view dans le layout activity_weekview !
         mWeekView = (com.alamkanak.weekview.WeekView) findViewById(R.id.weekView);
 
-        // Cliquer sur un evenement affiche un toast !
+        // Cliquer sur un evenement affiche l'évenement !
         mWeekView.setOnEventClickListener(this);
 
-        // La week view est scrollable horizontallement a l'infini. Nous fournissons les evenements
+        // La week view est scrollable horizontalement a l'infini. Nous fournissons les evenements
         // a chaque changement de mois.
         mWeekView.setMonthChangeListener(this);
 
         // Personnalise l'affichage de l'heure dans la week view
         setupDateTimeInterpreter(true);
+
+        //Permet de démarrer l'application à 7h à la place de 0h
+        mWeekView.goToHour(7);
     }
 
     @Override
