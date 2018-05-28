@@ -195,4 +195,17 @@ public class Evenement {
                 ret = ret+" "+_remarque;
         return ret;
     }
+
+    public static String conversion(int num){
+        String numConv;
+        if(num<10){
+            numConv="0"+num;
+        } else{
+            numConv=""+num;
+        }
+        return numConv;
+    }
+    public String toString_Date(){
+        return "Le "+conversion(_jour_debut)+"/"+conversion(_mois_debut)+"/"+_annee_debut+" de "+conversion(_heure_debut)+"h"+conversion(_minute_debut)+" à "+conversion(_heure_fin)+"h"+conversion(_minute_fin);
+    }
 }

@@ -47,6 +47,7 @@ import fr.univ_angers.agenda_ua.Utilisateur;
 import fr.univ_angers.agenda_ua.asyncTask.GroupesAsyncTask;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
+import fr.univ_angers.agenda_ua.evenement.Evenement;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 
@@ -323,7 +324,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     }
 
     private String toString_Date(Date datedebut,Date datefin){
-        return datedebut.getDate()+"/"+(datedebut.getMonth()+1)+"/"+(datedebut.getYear()+1900)+" de "+datedebut.getHours()+"h"+datedebut.getMinutes()+" à "+datefin.getHours()+"h"+datefin.getMinutes();
+        return Evenement.conversion(datedebut.getDate())+"/"+Evenement.conversion(datedebut.getMonth()+1)+"/"+(datedebut.getYear()+1900)+" de "+Evenement.conversion(datedebut.getHours())+"h"+Evenement.conversion(datedebut.getMinutes())+" à "+Evenement.conversion(datefin.getHours())+"h"+Evenement.conversion(datefin.getMinutes());
 
     }
 

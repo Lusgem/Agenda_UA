@@ -48,9 +48,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Events_ViewH
 
     public void ajoute(Evenement evenement){
         EventAdapter.Item item = new EventAdapter.Item();
-        item._date = evenement.get_jour_debut() + "/" + (evenement.get_mois_debut() + 1) + "/" + evenement.get_annee_debut();
+        item._date = evenement.toString_Date();
         item._lieu = evenement.get_location();
         item._detail = evenement.get_summary();
+        item._evenement = evenement;
         _data.add(item);
         this.notifyItemInserted(_data.size() - 1);
     }
@@ -59,6 +60,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Events_ViewH
         String _date;
         String _lieu;
         String _detail;
+        Evenement _evenement;
     }
 
     public class Events_ViewHolder extends RecyclerView.ViewHolder{
