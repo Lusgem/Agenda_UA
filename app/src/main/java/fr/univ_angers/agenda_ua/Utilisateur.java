@@ -8,8 +8,7 @@ public class Utilisateur {
     private String _lien;
     private String _formation;
 
-    public Utilisateur(long id, String lien, String formation) {
-        this._id = id;
+    public Utilisateur(String lien, String formation) {
         this._lien = lien;
         this._formation = formation;
     }

@@ -22,7 +22,6 @@ public class DataSource {
     private Tables _dbHelper;
 
     private String[] colonnesEvenement = {
-            Tables.COLONNE_ID,
             Tables.COLONNE_PERSONNEL,
             Tables.COLONNE_LOCATION,
             Tables.COLONNE_MATIERE,
@@ -35,13 +34,11 @@ public class DataSource {
     };
 
     private String[] colonnesFormation = {
-            Tables.COLONNE_ID_FORMATION,
             Tables.COLONNE_FORMATION,
             Tables.COLONNE_LIEN
     };
 
     private String[] colonnesUtilisateur = {
-            //Tables.COLONNE_ID_UTILISATEUR,
             Tables.COLONNE_LIEN_UTILISATEUR,
             Tables.COLONNE_FORMATION_UTILISATEUR
     };
@@ -216,26 +213,25 @@ public class DataSource {
     // Créer l'objet event après l'ajout dans la db ou au moment de renvoyer toute la liste
     private Evenement cursorEvenements(Cursor cursor){
         Evenement evenement = new Evenement();
-        evenement.set_id(cursor.getLong(0));
-        evenement.set_personnel(cursor.getString(1));
-        evenement.set_location(cursor.getString(2));
-        evenement.set_matiere(cursor.getString(3));
-        evenement.set_groupe(cursor.getString(4));
-        evenement.set_summary(cursor.getString(5));
-        evenement.set_date_debut(cursor.getString(6));
-        evenement.set_date_fin(cursor.getString(7));
-        evenement.set_date_stamp(cursor.getString(8));
-        evenement.set_remarque(cursor.getString(9));
+        evenement.set_personnel(cursor.getString(0));
+        evenement.set_location(cursor.getString(1));
+        evenement.set_matiere(cursor.getString(2));
+        evenement.set_groupe(cursor.getString(3));
+        evenement.set_summary(cursor.getString(4));
+        evenement.set_date_debut(cursor.getString(5));
+        evenement.set_date_fin(cursor.getString(6));
+        evenement.set_date_stamp(cursor.getString(7));
+        evenement.set_remarque(cursor.getString(8));
         return evenement;
     }
 
     private Formation cursorFormations(Cursor cursor){
-        Formation formation = new Formation(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        Formation formation = new Formation(cursor.getString(0), cursor.getString(1));
         return formation;
     }
 
     private Utilisateur cursorUtilisateur(Cursor cursor){
-        Utilisateur utilisateur = new Utilisateur(1, cursor.getString(0), cursor.getString(1));
+        Utilisateur utilisateur = new Utilisateur(cursor.getString(0), cursor.getString(1));
         return utilisateur;
     }
 }

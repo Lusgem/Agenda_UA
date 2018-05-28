@@ -5,12 +5,10 @@ import android.os.Parcelable;
 
 public class Formation implements Parcelable{
 
-    private Long _id;
     private String _intitule;
     private String _lien;
 
-    public Formation(Long id , String intitule, String lien) {
-        _id = id;
+    public Formation(String intitule, String lien) {
         this._intitule = intitule;
         this._lien = lien;
     }

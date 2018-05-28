@@ -20,7 +20,7 @@ public class Tables extends SQLiteOpenHelper {
     public static final String TABLE_UTILISATEUR = "utilisateur";
 
     // Colonnes de la table evenements
-    public static final String COLONNE_ID = "_id";
+    //public static final String COLONNE_ID = "_id";
     public static final String COLONNE_PERSONNEL = "personnel";
     public static final String COLONNE_LOCATION = "location";
     public static final String COLONNE_MATIERE = "matiere";
@@ -32,7 +32,7 @@ public class Tables extends SQLiteOpenHelper {
     public static final String COLONNE_REMARQUE = "remarque";
 
     // Colonnes de la table formations
-    public static final String COLONNE_ID_FORMATION = "_id";
+    //public static final String COLONNE_ID_FORMATION = "_id";
     public static final String COLONNE_FORMATION = "formation";
     public static final String COLONNE_LIEN = "lien";
 
@@ -43,7 +43,7 @@ public class Tables extends SQLiteOpenHelper {
 
     // Creation de la table evenements
     private static final String DATABASE_EVENEMENTS = "create table " + TABLE_EVENEMENTS + "("
-            + COLONNE_ID + " integer primary key autoincrement, "
+            //+ COLONNE_ID + " integer primary key autoincrement, "
             + COLONNE_PERSONNEL + ", "
             + COLONNE_LOCATION + ", "
             + COLONNE_MATIERE + ", "
@@ -56,7 +56,7 @@ public class Tables extends SQLiteOpenHelper {
 
     // Creation de la table formation
     private static final String DATABASE_FORMATIONS = "create table " + TABLE_FORMATIONS + "("
-            + COLONNE_ID_FORMATION + " integer primary key autoincrement, "
+            //+ COLONNE_ID_FORMATION + " integer primary key autoincrement, "
             + COLONNE_FORMATION + ", "
             + COLONNE_LIEN + ");";
 
