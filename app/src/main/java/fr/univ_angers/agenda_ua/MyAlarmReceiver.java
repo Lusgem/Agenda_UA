@@ -11,6 +11,7 @@ import android.widget.Toast;
 public class MyAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
         System.out.println("Alarm Coucou");
         Toast.makeText(context, "Coucou", Toast.LENGTH_SHORT).show();
     }

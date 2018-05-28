@@ -36,6 +36,10 @@
             android:title="Comparer vos emplois du temps"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
+        <item android:id="@+id/action_actualiser"
+            android:title="Actualiser"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
     </group>
 
 </menu>

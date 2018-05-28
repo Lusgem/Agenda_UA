@@ -1,7 +1,11 @@
-package fr.univ_angers.agenda_ua.asyncTask;
+package fr.univ_angers.agenda_ua.synchronisation;
 
-import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.evernote.android.job.DailyJob;
+import com.evernote.android.job.Job;
+import com.evernote.android.job.JobRequest;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
@@ -9,27 +13,21 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
 
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
+import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
+import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
+public class AgendaSyncJob extends Job {
 
-public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
-
-    private final static String TAG = Activity.class.getName();
-
-    public interface Listeners{
-        void onPreExecute();
-        void doInBackground();
-        void onPostExecute();
-    }
+    public static final String TAG = "job_agenda_tag";
 
     private String _dateDebut;
     private String _dateFin;
@@ -43,29 +41,19 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
 
     private DataSource _datasource;
 
-    private final WeakReference<Listeners> _callback;
-
-
-    public ICSAsyncTask(DataSource dataSource, Listeners callback){
-        _datasource = dataSource;
-        _callback = new WeakReference<Listeners>(callback);
-    }
 
 
     @Override
-    protected void onPreExecute() {
-        Log.i(TAG, "Debut");
-        _callback.get().onPreExecute();
+    @NonNull
+    protected Result onRunJob(Params params) {
+        _datasource = new DataSource(getContext());
+        _datasource.open();
         if (!_datasource.evenementsVide()){
             _datasource.supprimeEvenements();
         }
-    }
-
-    @Override
-    protected Void doInBackground(String ... strings) {
-        _callback.get().doInBackground();
+        if (!_datasource.utilisateurVide()){
         try {
-            URL url = new URL(strings[0]);
+            URL url = new URL("http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" +"g564693.ics");// _datasource.getAllUtilisateur().get(0).get_lien());
 
             Log.i(TAG, "En cours d'execution sur : " + url.toString());
 
@@ -127,12 +115,20 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
         } catch (ParserException e) {
             e.printStackTrace();
         }
-        return null;
+
+            return Result.SUCCESS;
+
+        }
+        else
+            return Result.FAILURE;
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        Log.i(TAG, "Fin");
-        _callback.get().onPostExecute();
+    public static void scheduleJob() {
+        new JobRequest.Builder(TAG)
+                .startNow()
+                .build()
+                .schedule();
     }
+
+
 }

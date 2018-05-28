@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
@@ -31,7 +34,9 @@
             android:name=".MyAlarmReceiver"
             android:exported="true" />
 
-        <activity android:name=".EventActivity"></activity>
+        <activity android:name=".EventActivity" />
+
+
     </application>
 
 </manifest>

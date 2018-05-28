@@ -14,12 +14,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:gravity="center_horizontal"
             android:ellipsize="end"
-            android:lines="1"
-
+            android:maxLines="2"
             tools:text="02/02/2018"/>
     </LinearLayout>
     <LinearLayout
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:textSize="15dp"
+            android:textSize="15sp"
             tools:text="Théorie des Graphes"
             />
         <TextView
@@ -42,7 +41,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:layout_gravity="center"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:ellipsize="end"
             android:lines="1"
             tools:text="H305"/>
