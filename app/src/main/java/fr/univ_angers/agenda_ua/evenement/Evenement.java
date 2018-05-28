@@ -187,6 +187,16 @@ public class Evenement {
 
     @Override
     public String toString() {
-        return _heure_debut+"h"+_minute_debut+" - "+_heure_fin+"h"+_minute_fin+"\n"+_summary+"\n"+_remarque;
+        String ret;
+        if (_matiere!=null){
+            ret = _matiere+" - "+_personnel;
+            if(_remarque!=null)
+                ret = ret+", "+_remarque;
+
+        }
+        else{
+            ret = _summary;
+        }
+        return ret;
     }
 }
