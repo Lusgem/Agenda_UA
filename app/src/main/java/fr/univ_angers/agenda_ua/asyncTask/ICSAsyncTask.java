@@ -111,6 +111,12 @@ public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
                         }
                     }
                     _datasource.creationEvenement(_personnel,_location,_matiere,_groupe,_summary,_dateDebut,_dateFin,_dateStamp,_remarque);
+                    _personnel=null;
+                    _groupe=null;
+                    _remarque=null;
+                    _matiere=null;
+                    _summary=null;
+                    _location=null;
                 }
             }
         } catch (MalformedURLException e) {

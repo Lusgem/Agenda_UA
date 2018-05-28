@@ -10,7 +10,6 @@ public abstract class Traitement {
 
     public static void TraitementMatiere(){
         ArrayList<Evenement> _eventsTraites = (ArrayList<Evenement>)GetEvents._evenements.clone();
-        //ArrayList<Evenement> _result = new ArrayList<>();
         if(GetEvents._listeMatieresAEnlever.isEmpty()){
             System.out.println("Pas de traitement");
         }

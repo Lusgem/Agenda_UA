@@ -188,15 +188,11 @@ public class Evenement {
     @Override
     public String toString() {
         String ret;
-        if (_matiere!=null){
-            ret = _matiere+" - "+_personnel;
+        ret = _summary;
+        if (_personnel!=null && _personnel.length()>1)
+            ret = ret+" - "+_personnel+", ";
             if(_remarque!=null)
-                ret = ret+", "+_remarque;
-
-        }
-        else{
-            ret = _summary;
-        }
+                ret = ret+" "+_remarque;
         return ret;
     }
 }

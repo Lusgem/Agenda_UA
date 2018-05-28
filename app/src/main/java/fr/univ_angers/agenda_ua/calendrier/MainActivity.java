@@ -62,7 +62,7 @@ public class MainActivity extends WeekView {
                     Calendar endTime = (Calendar) startTime.clone();
                     endTime.set(Calendar.HOUR_OF_DAY, GetEvents._eventsTraites.get(i).get_heure_fin());
                     endTime.set(Calendar.MINUTE, GetEvents._eventsTraites.get(i).get_minute_fin());
-                    WeekViewEvent event = new WeekViewEvent(i, GetEvents._eventsTraites.get(i).get_summary(), GetEvents._eventsTraites.get(i).get_location(), startTime, endTime);
+                    WeekViewEvent event = new WeekViewEvent(i, GetEvents._eventsTraites.get(i).toString(), GetEvents._eventsTraites.get(i).get_location(), startTime, endTime);
                     event.setColor(getResources().getColor(R.color.event_color_01));
                     events.add(event);
                 }
