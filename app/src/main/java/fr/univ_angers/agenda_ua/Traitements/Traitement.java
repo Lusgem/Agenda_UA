@@ -1,13 +1,15 @@
 package fr.univ_angers.agenda_ua.Traitements;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.ListIterator;
 
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
+import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.evenement.Evenement;
 
 public abstract class Traitement {
-
     public static void TraitementMatiere(){
         ArrayList<Evenement> _eventsTraites = (ArrayList<Evenement>)GetEvents._evenements.clone();
         if(GetEvents._listeMatieresAEnlever.isEmpty()){

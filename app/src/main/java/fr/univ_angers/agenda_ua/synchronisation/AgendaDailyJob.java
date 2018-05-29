@@ -17,6 +17,7 @@ public class AgendaDailyJob extends DailyJob {
     @NonNull
     @Override
     protected DailyJobResult onRunDailyJob(@NonNull Params params) {
+        AgendaSyncJob.scheduleJob();
         return DailyJobResult.SUCCESS;
     }
 }

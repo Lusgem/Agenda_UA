@@ -24,7 +24,7 @@
     </group>
     <group>
         <item android:id="@+id/action_parametre"
-            android:title="Paramètres"
+            android:title="Choix de la formation"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
         <item android:id="@+id/action_taches_a_venir"

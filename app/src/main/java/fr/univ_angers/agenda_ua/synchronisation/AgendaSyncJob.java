@@ -1,5 +1,7 @@
 package fr.univ_angers.agenda_ua.synchronisation;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -22,6 +24,7 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import fr.univ_angers.agenda_ua.asyncTask.ICSAsyncTask;
+import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
@@ -115,12 +118,15 @@ public class AgendaSyncJob extends Job {
         } catch (ParserException e) {
             e.printStackTrace();
         }
-
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            getContext().startActivity(intent);
             return Result.SUCCESS;
 
+
         }
-        else
+        else {
             return Result.FAILURE;
+        }
     }
 
     public static void scheduleJob() {
@@ -129,6 +135,8 @@ public class AgendaSyncJob extends Job {
                 .build()
                 .schedule();
     }
+
+
 
 
 }

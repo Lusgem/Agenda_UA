@@ -27,7 +27,9 @@ import android.content.Intent;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.evernote.android.job.DailyJob;
 import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
 import com.facebook.stetho.Stetho;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -56,7 +58,7 @@ import fr.univ_angers.agenda_ua.synchronisation.AgendaSyncJob;
 import fr.univ_angers.agenda_ua.synchronisation.SyncJobCreator;
 
 
-public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, GroupesAsyncTask.Listeners{
+public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, GroupesAsyncTask.Listeners {
 
     private final static String TAG = Activity.class.getName();
     private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
@@ -75,7 +77,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     private Dialog _dialog;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +88,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         _dataSource.open();
 
         // Premier lancement de l'application
-        if (_dataSource.formationVide()){
+        if (_dataSource.formationVide()) {
             /* chrome://inspect/#devices */
             Stetho.initializeWithDefaults(this);
 
@@ -110,8 +111,9 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
         //Permet de démarrer l'application à 7h à la place de 0h
         mWeekView.goToHour(7);
-
-
+        JobManager.create(this).addJobCreator(new SyncJobCreator());
+        //AgendaDailyJob.startNowOnce(new JobRequest.Builder(AgendaSyncJob.TAG));
+        AgendaDailyJob.schedule();
 
     }
 
@@ -126,13 +128,14 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         Log.i(TAG, "WeekView onResume");
         super.onResume();
         _dataSource.open();
-        if (!_dataSource.utilisateurVide()){
+        if (!_dataSource.utilisateurVide()) {
             Gson gson = new Gson();
             ArrayList<Utilisateur> uti = _dataSource.getAllUtilisateur();
             String form = uti.get(0).get_formation();
-            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
             ArrayList<String> finalOutputString = gson.fromJson(form, type);
-            if(finalOutputString!=null) {
+            if (finalOutputString != null) {
                 for (String s : finalOutputString) {
                     System.out.println(s);
                 }
@@ -177,7 +180,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         setupDateTimeInterpreter(id == R.id.action_week_view);
-        switch (id){
+        switch (id) {
             case R.id.action_today:
                 mWeekView.goToToday();
                 return true;
@@ -227,19 +230,20 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 startActivity(vue);
                 return true;
             case R.id.action_comparer_evenenement:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED){
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)){
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, MY_PERMISSIONS_REQUEST_READ_CALENDAR);
-                    }else {
+                    } else {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, MY_PERMISSIONS_REQUEST_READ_CALENDAR);
                     }
-                }else {
+                } else {
                     comparerEvenements();
                 }
                 return true;
             case R.id.action_actualiser:
-                JobManager.create(this).addJobCreator(new SyncJobCreator());
                 AgendaSyncJob.scheduleJob();
+
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -276,12 +280,21 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         }
     }
 
-    public void comparerEvenements(){
+    public void comparerEvenements() {
         Date dateActuelle = new Date();
         ArrayList<EvenementExterieur> array = new ArrayList<EvenementExterieur>();
         Uri uri = CalendarContract.Events.CONTENT_URI;
         String[] projection = new String[]{CalendarContract.Events.TITLE, CalendarContract.Events.EVENT_LOCATION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
         System.out.println(cursor.getCount());
         cursor.moveToFirst();

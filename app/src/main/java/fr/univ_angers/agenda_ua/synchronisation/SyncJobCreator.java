@@ -13,6 +13,8 @@ public class SyncJobCreator implements JobCreator {
         switch (tag) {
             case AgendaSyncJob.TAG :
                 return new AgendaSyncJob();
+            case AgendaDailyJob.TAG :
+                return new AgendaDailyJob();
                 default:
                     return null;
         }
