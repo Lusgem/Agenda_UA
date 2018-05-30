@@ -22,7 +22,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Events_ViewH
     private ArrayList<Item> _data;
 
     public EventAdapter() {
-
         _data = new ArrayList<Item>();
     }
 

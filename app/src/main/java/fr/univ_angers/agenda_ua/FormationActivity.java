@@ -132,7 +132,7 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     @Override
     public void onPostExecute() {
         updateUIApresTache();
-        GetEvents._evenements = _datasource.getAllEvenements();
+        //GetEvents._evenements = _datasource.getAllEvenements();
         GetEvents._listeMatieres = _datasource.getMatieres();
         Intent matiere = new Intent(this, MatieresActivity.class);
         startActivity(matiere);

@@ -117,6 +117,7 @@ public class MatieresActivity extends AppCompatActivity{
         ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
         for(String matiere : matieres)
         {
+            System.out.println("List : " + matiere);
             MatieresListViewItem mat = new MatieresListViewItem();
             mat.setChecked(true);
             mat.setItemText(matiere);
@@ -127,14 +128,17 @@ public class MatieresActivity extends AppCompatActivity{
     }
 
     public void onClickMatieres(View view){
-        GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
+        //GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
+        for (String s : _listeMatiereAEnlever) {
+            System.out.println("Matieres activity : " + s);
+        }
         Gson gson = new Gson();
         String inputString= gson.toJson(_listeMatiereAEnlever);
         _datasource = new DataSource(this);
         _datasource.open();
         _datasource.updateUtilisateur(1,inputString);
+        Traitement.TraitementMatiere(_datasource);
         _datasource.close();
-        Traitement.TraitementMatiere();
         Intent WeekView = new Intent(this, MainActivity.class);
         startActivity(WeekView);
         MatieresActivity.this.finish();

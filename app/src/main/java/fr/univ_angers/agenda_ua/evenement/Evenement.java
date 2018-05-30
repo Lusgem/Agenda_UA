@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 public class Evenement {
 
-    private Long _id; // id pour la base de donnée
     private String _personnel; // Dans la description
     private String _location;
     private String _matiere; // Dans la description
@@ -31,9 +30,6 @@ public class Evenement {
     private int _minute_fin;
 
     // GETTER
-    public Long get_id() {
-        return _id;
-    }
     public String get_personnel() {
         return _personnel;
     }
@@ -94,9 +90,6 @@ public class Evenement {
 
 
     // SETTER
-    public void set_id(Long _id) {
-        this._id = _id;
-    }
     public void set_personnel(String _personnel) {
         this._personnel = _personnel;
     }

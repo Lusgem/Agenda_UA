@@ -11,10 +11,10 @@ import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 
 
 public abstract class GetEvents {
-    public static ArrayList<Evenement> _evenements;
+    //public static ArrayList<Evenement> _evenements;
     public static ArrayList<EvenementExterieur> _eventsExterieur;
     public static ArrayList<String> _listeMatieres; // Liste des matières de la formation choisie
-    public static ArrayList<String> _listeMatieresAEnlever = new ArrayList<>(); //Liste des matières que l'étudiant ne veut pas afficher
+    //public static ArrayList<String> _listeMatieresAEnlever = new ArrayList<>(); //Liste des matières que l'étudiant ne veut pas afficher
     public static ArrayList<Evenement> _eventsTraites; // Liste des evenements après traitements
     public static String _url;
 }

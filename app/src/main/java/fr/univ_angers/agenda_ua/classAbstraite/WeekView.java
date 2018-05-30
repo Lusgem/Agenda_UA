@@ -28,6 +28,7 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.evernote.android.job.DailyJob;
+import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.facebook.stetho.Stetho;
@@ -63,7 +64,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
     private final static String TAG = Activity.class.getName();
     private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
     public final static String EVENT_LOCATION = "EVENT_LOCATION";
-    public final static String EVENT_DETAILS = "EVENT_DETAILS";
     public final static String EVENT_DATE = "EVENT_DATE";
     public final static String EVENT_RESUME = "EVENT_RESUME";
 
@@ -111,8 +111,11 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
 
         //Permet de démarrer l'application à 7h à la place de 0h
         mWeekView.goToHour(7);
+
+        //Création du jobManager pour la synchroniqation journalière et ponctuelle
         JobManager.create(this).addJobCreator(new SyncJobCreator());
-        //AgendaDailyJob.startNowOnce(new JobRequest.Builder(AgendaSyncJob.TAG));
+
+        // Mise en place de la synchronisation jorunalière
         AgendaDailyJob.schedule();
 
     }
@@ -128,21 +131,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         Log.i(TAG, "WeekView onResume");
         super.onResume();
         _dataSource.open();
-        if (!_dataSource.utilisateurVide()) {
-            Gson gson = new Gson();
-            ArrayList<Utilisateur> uti = _dataSource.getAllUtilisateur();
-            String form = uti.get(0).get_formation();
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            ArrayList<String> finalOutputString = gson.fromJson(form, type);
-            if (finalOutputString != null) {
-                for (String s : finalOutputString) {
-                    System.out.println(s);
-                }
-            }
-        }
-        GetEvents._evenements = _dataSource.getAllEvenements();
-        Traitement.TraitementMatiere();
+        Traitement.TraitementMatiere(_dataSource);
     }
 
     @Override
@@ -242,6 +231,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 return true;
             case R.id.action_actualiser:
                 AgendaSyncJob.scheduleJob();
+
+
 
 
         }
