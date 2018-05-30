@@ -27,6 +27,11 @@
             android:title="Choix de la formation"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/action_matieres"
+            android:orderInCategory="100"
+            android:title="Choix des matières"
+            app:showAsAction="ifRoom" />
         <item android:id="@+id/action_taches_a_venir"
             android:title="Tâches à venir"
             android:orderInCategory="100"

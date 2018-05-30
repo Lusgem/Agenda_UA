@@ -113,7 +113,10 @@ public class MatieresActivity extends AppCompatActivity{
 
     private List<MatieresListViewItem> getInitViewItemDtoList()
     {
-        ArrayList<String> matieres = GetEvents._listeMatieres;
+        _datasource = new DataSource(this);
+        _datasource.open();
+        ArrayList<String> matieres = _datasource.getMatieres();
+        //ArrayList<String> matieres = GetEvents._listeMatieres;
         ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
         for(String matiere : matieres)
         {
@@ -124,6 +127,7 @@ public class MatieresActivity extends AppCompatActivity{
 
             ret.add(mat);
         }
+        _datasource.close();
         return ret;
     }
 

@@ -41,7 +41,7 @@ public abstract class Traitement {
             }
         }
         GetEvents._eventsTraites = _eventsTraites;
-        //coucouc
+
     }
 
 

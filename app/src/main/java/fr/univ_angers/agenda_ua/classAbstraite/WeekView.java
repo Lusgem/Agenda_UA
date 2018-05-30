@@ -53,6 +53,7 @@ import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.evenement.Evenement;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
+import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 import fr.univ_angers.agenda_ua.recyclerView.EventRecyclerView;
 import fr.univ_angers.agenda_ua.synchronisation.AgendaDailyJob;
 import fr.univ_angers.agenda_ua.synchronisation.AgendaSyncJob;
@@ -178,7 +179,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_DAY_VIEW;
                     mWeekView.setNumberOfVisibleDays(1);
-
+                    mWeekView.goToHour(7);
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
@@ -190,7 +191,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_THREE_DAY_VIEW;
                     mWeekView.setNumberOfVisibleDays(3);
-
+                    mWeekView.goToHour(7);
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
@@ -202,7 +203,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_WEEK_VIEW;
                     mWeekView.setNumberOfVisibleDays(7);
-
+                    mWeekView.goToHour(7);
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
@@ -231,6 +232,12 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 return true;
             case R.id.action_actualiser:
                 AgendaSyncJob.scheduleJob();
+                return true;
+            case R.id.action_matieres:
+                Intent matiereActivity = new Intent(this, MatieresActivity.class);
+                startActivity(matiereActivity);
+                WeekView.this.finish();
+                return true;
 
 
 
