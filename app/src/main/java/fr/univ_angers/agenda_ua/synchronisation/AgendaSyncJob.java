@@ -56,7 +56,7 @@ public class AgendaSyncJob extends Job {
         }
         if (!_datasource.utilisateurVide()){
         try {
-            URL url = new URL("http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" +"g564693.ics");// _datasource.getAllUtilisateur().get(0).get_lien());
+            URL url = new URL("http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" +_datasource.getAllUtilisateur().get(0).get_lien());
 
             Log.i(TAG, "En cours d'execution sur : " + url.toString());
 
