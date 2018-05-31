@@ -12,13 +12,16 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.univ_angers.agenda_ua.FormationActivity;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.Traitements.Traitement;
+import fr.univ_angers.agenda_ua.Utilisateur;
 import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
@@ -116,15 +119,34 @@ public class MatieresActivity extends AppCompatActivity{
         _datasource = new DataSource(this);
         _datasource.open();
         ArrayList<String> matieres = _datasource.getMatieres();
-        //ArrayList<String> matieres = GetEvents._listeMatieres;
+        ArrayList<String> matieresEnlevees = new ArrayList<>(); // Liste des matières déja enlevées
+        if (!_datasource.utilisateurVide()) {
+            Gson gson = new Gson();
+            ArrayList<Utilisateur> uti = _datasource.getAllUtilisateur();
+            String form = uti.get(0).get_formation();
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            matieresEnlevees = gson.fromJson(form, type);
+        }
         ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
         for(String matiere : matieres)
         {
             System.out.println("List : " + matiere);
             MatieresListViewItem mat = new MatieresListViewItem();
-            mat.setChecked(true);
+            if(!(matieresEnlevees==null)){
+                for(String matiereEnlevee : matieresEnlevees){
+                    if (matiereEnlevee.equalsIgnoreCase(matiere)){
+                        mat.setChecked(false);
+                        break;
+                    }
+                    else{
+                        mat.setChecked(true);
+                    }
+                }
+            }
+            else {
+                mat.setChecked(true);
+                }
             mat.setItemText(matiere);
-
             ret.add(mat);
         }
         _datasource.close();
