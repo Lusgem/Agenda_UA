@@ -1,2 +1,2 @@
 # Agenda_UA
-Attention à la fermeture de l'app, ça delete le geteventtraité
+Pour télécharger l'application, vous devez autoriser l'installation d'apk provenant de sources inconnues, ensuite vous pouvez vous servir directement du QR Code suivant :
