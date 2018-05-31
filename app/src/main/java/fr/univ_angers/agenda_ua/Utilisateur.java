@@ -1,9 +1,14 @@
 package fr.univ_angers.agenda_ua;
 
 /**
- * Created by Thibault Condemine on 23/05/2018.
+ * Cette classe sert à stocké le choix de formation de l'utilisateur
+ * Elle stocke le lien de téléchargement de l'emploi du temps (pour la synchronisation) et
+ * l'intitulé de la formation
  */
+
+
 public class Utilisateur {
+
     private String _lien;
     private String _formation;
 

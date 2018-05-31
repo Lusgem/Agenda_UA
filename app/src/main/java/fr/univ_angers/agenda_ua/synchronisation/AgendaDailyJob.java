@@ -8,6 +8,10 @@ import com.evernote.android.job.JobRequest;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Cette classe permet de paramétrer la synchronisation automatique (en lançant AgendaSyncJob entre
+ * 1h et 6h du matin)
+ */
 public class AgendaDailyJob extends DailyJob {
     public static final String TAG = "AgendaDailyJob";
 

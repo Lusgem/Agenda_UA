@@ -20,7 +20,9 @@ import java.util.Iterator;
 
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
-
+/**
+ * Tache asycnhrone permettant de récupérer l'emploi du temps via une URL
+ */
 public class ICSAsyncTask extends android.os.AsyncTask<String, Void, Void> {
 
     private final static String TAG = Activity.class.getName();

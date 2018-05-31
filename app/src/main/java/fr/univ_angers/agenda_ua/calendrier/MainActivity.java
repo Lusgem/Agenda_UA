@@ -15,6 +15,10 @@ import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
 import fr.univ_angers.agenda_ua.evenement.EvenementExterieur;
 
+/**
+ * Activité principale héritant de la classe WeekView, elle représente la base de notre interface
+ * graphique
+ */
 public class MainActivity extends WeekView {
 
     private final static String TAG = Activity.class.getName();

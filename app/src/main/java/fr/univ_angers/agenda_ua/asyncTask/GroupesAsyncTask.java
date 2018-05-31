@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import fr.univ_angers.agenda_ua.Formation;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
+/**
+ * Tache asycnhrone permettant de récupérer la liste des formations à partir d'un fichier html
+ */
 public class GroupesAsyncTask extends AsyncTask<Void,Void,Void> {
 
     private final static String TAG = Activity.class.getName();

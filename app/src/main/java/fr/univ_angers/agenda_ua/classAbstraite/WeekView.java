@@ -59,6 +59,9 @@ import fr.univ_angers.agenda_ua.synchronisation.AgendaDailyJob;
 import fr.univ_angers.agenda_ua.synchronisation.AgendaSyncJob;
 import fr.univ_angers.agenda_ua.synchronisation.SyncJobCreator;
 
+/**
+ * Base de notre interface graphique, c'est ici que les modifications la concernant sont effectuées
+ */
 
 public abstract class WeekView extends AppCompatActivity implements com.alamkanak.weekview.WeekView.EventClickListener, MonthLoader.MonthChangeListener, GroupesAsyncTask.Listeners {
 
@@ -166,6 +169,19 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         return true;
     }
 
+    /**
+     * Menu principal
+     * action_today : Remet l'interface graphique à la date d'aujourd'hui
+     * action_day_view : Passer en vue journalière
+     * action_three_day_view : Passer en vue trois jours
+     * action_week_view : Passer en vue semaine
+     * action_formation : Passer à l'activité de choix de formation
+     * action_taches_a_venir : Passer à l'activité montrant les taches à venir
+     * action_comparer_evenements : Permet de comparer son Agenda avec celui d'Android
+     * action_actualiser : Permet de mettre à jour la base de donnée manuellement
+     * action_matieres : Permet de sélectionner els matières sans passer par le choix de la formation
+     * @param item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -210,7 +226,7 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                 }
                 return true;
-            case R.id.action_parametre:
+            case R.id.action_formation:
                 Intent main = new Intent(this, FormationActivity.class);
                 startActivity(main);
                 WeekView.this.finish();
@@ -239,9 +255,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                 WeekView.this.finish();
                 return true;
 
-
-
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -255,10 +268,8 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                     // La permission est garantie
                     comparerEvenements();
                 } else {
-// 1. Instantiate an AlertDialog.Builder with its constructor
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-// 2. Chain together various setter methods to set the dialog characteristics
                     builder.setMessage("Vous ne pourrez pas utiliser cette fonctionnalité !")
                             .setTitle("Attention !");
 
@@ -268,8 +279,6 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
                             dialog.cancel();
                         }
                     });
-
-// 3. Get the AlertDialog from create()
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
@@ -366,6 +375,10 @@ public abstract class WeekView extends AppCompatActivity implements com.alamkana
         return mWeekView;
     }
 
+    /**
+     * Si la base de données est vide, un popup s'affiche permettant à l'utilisateur de choisir sa
+     * formation
+     */
     public void afficherPopupLancement(){
         _dialog = new Dialog(this);
         _dialog.setContentView(R.layout.popup_lancement);

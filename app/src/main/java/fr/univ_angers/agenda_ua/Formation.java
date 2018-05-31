@@ -1,9 +1,8 @@
 package fr.univ_angers.agenda_ua;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-public class Formation implements Parcelable{
+
+public class Formation{
 
     private String _intitule;
     private String _lien;
@@ -13,10 +12,6 @@ public class Formation implements Parcelable{
         this._lien = lien;
     }
 
-    protected Formation(Parcel in) {
-        _intitule = in.readString();
-        _lien = in.readString();
-    }
 
     //Getter
     public String get_intitule(){
@@ -50,26 +45,5 @@ public class Formation implements Parcelable{
         return false;
     }
 
-    public static final Creator<Formation> CREATOR = new Creator<Formation>() {
-        @Override
-        public Formation createFromParcel(Parcel in) {
-            return new Formation(in);
-        }
 
-        @Override
-        public Formation[] newArray(int size) {
-            return new Formation[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(_intitule);
-        dest.writeString(_lien);
-    }
 }

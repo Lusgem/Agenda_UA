@@ -13,10 +13,12 @@ import fr.univ_angers.agenda_ua.evenement.Evenement;
 import fr.univ_angers.agenda_ua.R;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 
+/**
+ * Activité avec un recyclerView permettant d'afficher la liste des évenements à venir
+ */
 public class EventRecyclerView extends AppCompatActivity {
 
     private final static String TAG = Activity.class.getName();
-
     private RecyclerView _rv_event;
     private EventAdapter _adapter;
 

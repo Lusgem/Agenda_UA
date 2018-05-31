@@ -6,6 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Cette classe sert à stocker les évenements et tous les détails qui y sont associés
+ */
+
 public class Evenement {
 
     private String _personnel; // Dans la description

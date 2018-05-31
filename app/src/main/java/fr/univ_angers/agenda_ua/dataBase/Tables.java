@@ -8,6 +8,10 @@ import android.util.Log;
 /**
  * Created by Thibault Condemine on 26/04/2018.
  */
+
+/**
+ * Classe permettant de définir les tables de la base de données
+ */
 public class Tables extends SQLiteOpenHelper {
 
     // Version et nom de la base de données

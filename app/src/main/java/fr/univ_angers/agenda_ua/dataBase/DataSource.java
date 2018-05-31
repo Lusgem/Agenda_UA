@@ -16,6 +16,10 @@ import fr.univ_angers.agenda_ua.evenement.Evenement;
 /**
  * Created by Thibault Condemine on 26/04/2018.
  */
+
+/**
+ * Cette classe représente la base de données
+ */
 public class DataSource {
 
     private SQLiteDatabase _database;
@@ -55,6 +59,18 @@ public class DataSource {
         _dbHelper.close();
     }
 
+    /**
+     * Création de la tables evenements
+     * @param personnel
+     * @param location
+     * @param matiere
+     * @param groupe
+     * @param summary
+     * @param dateDeb
+     * @param dateFin
+     * @param dateStamp
+     * @param remarque
+     */
     public void creationEvenement(String personnel, String location, String matiere, String groupe, String summary, String dateDeb, String dateFin, String dateStamp, String remarque){
         // Créer un pseudo objet
         ContentValues values = new ContentValues();
@@ -72,6 +88,11 @@ public class DataSource {
         _database.insert(Tables.TABLE_EVENEMENTS, null, values);
     }
 
+    /**
+     * Création de la table formation
+     * @param formation
+     * @param lien
+     */
     public void creationFormation(String formation, String lien){
         ContentValues values = new ContentValues();
         values.put(Tables.COLONNE_FORMATION, formation);
@@ -80,6 +101,11 @@ public class DataSource {
         _database.insert(Tables.TABLE_FORMATIONS, null, values);
     }
 
+    /**
+     * Création de la table utilisateur
+     * @param lien
+     * @param formation
+     */
     public void creationUtilisateur(String lien, String formation){
         ContentValues values = new ContentValues();
         values.put(Tables.COLONNE_LIEN_UTILISATEUR, lien);
@@ -143,6 +169,10 @@ public class DataSource {
         }
     }
 
+    /**
+     * Permet de récupérer la liste de tous les évenements
+     * @return
+     */
     public ArrayList<Evenement> getAllEvenements(){
         ArrayList<Evenement> evenements = new ArrayList<>();
         String orderBy = Tables.COLONNE_DATE_DEB;
@@ -161,6 +191,10 @@ public class DataSource {
         return evenements;
     }
 
+    /**
+     * Permet de récupérer les intitulés de toutes les formations
+     * @return
+     */
     public ArrayList<Formation> getAllFormation(){
         ArrayList<Formation> formations = new ArrayList<>();
         String orderBy = Tables.COLONNE_FORMATION;
@@ -177,6 +211,10 @@ public class DataSource {
         return formations;
     }
 
+    /**
+     * Permet de récupérer les informations concernant l'utilisateur
+     * @return
+     */
     public ArrayList<Utilisateur> getAllUtilisateur(){
         ArrayList<Utilisateur> utilisateurs = new ArrayList<>();
         Cursor cursor = _database.query(Tables.TABLE_UTILISATEUR, colonnesUtilisateur, null, null, null, null, null);
@@ -192,6 +230,10 @@ public class DataSource {
         return utilisateurs;
     }
 
+    /**
+     * Permet de récupérer la liste des matières
+     * @return
+     */
     public ArrayList<String> getMatieres(){
         ArrayList<String> matieres = new ArrayList<>();
         Cursor cursor = _database.query(true, Tables.TABLE_EVENEMENTS, new String[]{Tables.COLONNE_MATIERE},null,null,null,null,null,null); //query(Tables.TABLE_EVENTS, Tables.COLUMN_MATIERE, null, null, null, null, null);

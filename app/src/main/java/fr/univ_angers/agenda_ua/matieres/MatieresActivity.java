@@ -26,6 +26,10 @@ import fr.univ_angers.agenda_ua.calendrier.MainActivity;
 import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
+/**
+ * Cette activité est celle permettant de sélectionner les matières à afficher
+ */
+
 public class MatieresActivity extends AppCompatActivity{
 
     private final static String TAG = Activity.class.getName();
@@ -67,7 +71,7 @@ public class MatieresActivity extends AppCompatActivity{
                 }else
                 {
                     for (int i=0;i<_listeMatiereAEnlever.size();i++){
-                        if(_listeMatiereAEnlever.get(i)==itemCheckbox.getText().toString())
+                        if(_listeMatiereAEnlever.get(i).equalsIgnoreCase(itemCheckbox.getText().toString()))
                             _listeMatiereAEnlever.remove(i);
                     }
                     itemCheckbox.setChecked(true);
@@ -114,6 +118,11 @@ public class MatieresActivity extends AppCompatActivity{
         super.onDestroy();
     }
 
+    /**
+     * Cette fonction récupère les matières de la formation et les ajoute dans le listView
+     * Si une matière à déja été enlevée par l'étudiant, elle sera automatiquement décochée
+     * lorsqu'il reviendra sur cette activité
+     */
     private List<MatieresListViewItem> getInitViewItemDtoList()
     {
         _datasource = new DataSource(this);
@@ -126,6 +135,9 @@ public class MatieresActivity extends AppCompatActivity{
             String form = uti.get(0).get_formation();
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
             matieresEnlevees = gson.fromJson(form, type);
+            if(!(matieresEnlevees==null)){
+                _listeMatiereAEnlever=matieresEnlevees;
+            }
         }
         ArrayList<MatieresListViewItem> ret = new ArrayList<MatieresListViewItem>();
         for(String matiere : matieres)
@@ -153,9 +165,11 @@ public class MatieresActivity extends AppCompatActivity{
         return ret;
     }
 
+    /**
+     * Lors de l'appui sur le bouton,
+     */
     public void onClickMatieres(View view){
-        //GetEvents._listeMatieresAEnlever = _listeMatiereAEnlever;
-        for (String s : _listeMatiereAEnlever) {
+                for (String s : _listeMatiereAEnlever) {
             System.out.println("Matieres activity : " + s);
         }
         Gson gson = new Gson();

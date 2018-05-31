@@ -29,6 +29,11 @@ import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 
+/**
+ * Cette classe permet de faire la synchronisation des données, elle est utilisée quotidiennement
+ * grace à la classe AgendaDailyJob ou appelée lors de l'appui du bouton actualiser (dans le menu
+ * de l'application)
+ */
 public class AgendaSyncJob extends Job {
 
     public static final String TAG = "job_agenda_tag";
@@ -44,9 +49,6 @@ public class AgendaSyncJob extends Job {
     private String _remarque;
 
     private DataSource _datasource;
-
-
-
 
     @Override
     @NonNull

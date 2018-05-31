@@ -14,7 +14,17 @@ import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.evenement.Evenement;
 
+/**
+ * La classe traitement est une classe abstraite permettant de lancer des traitements comme
+ * le traitement des matières.
+ */
+
 public abstract class Traitement {
+    /**
+     * Ce traitement filtre la liste des évenements en enelevant les matières déselectionnées par l'utilisateur
+     * @param dataSource (base de données permettant de récupérer les évenements et les matières à
+     *                   enlever
+     */
     public static void TraitementMatiere(DataSource dataSource){
         ArrayList<Evenement> _eventsTraites = dataSource.getAllEvenements();
         ArrayList<String> finalOutputString = new ArrayList<>();

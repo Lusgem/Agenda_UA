@@ -26,6 +26,9 @@ import fr.univ_angers.agenda_ua.classAbstraite.GetEvents;
 import fr.univ_angers.agenda_ua.dataBase.DataSource;
 import fr.univ_angers.agenda_ua.matieres.MatieresActivity;
 
+/**
+ * Cette classe représente l'activité permettant de chosir sa formation dans une liste déroulante
+ */
 public class FormationActivity extends AppCompatActivity implements ICSAsyncTask.Listeners {
 
     private final static String TAG = Activity.class.getName();
@@ -41,7 +44,6 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
     private ProgressBar _progressBar;
     private Dialog _dialog;
 
-    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +168,10 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
         fermerPopup();
     }
 
+    /**
+     * Ce pop-up sert à confirmer son choix avant de lancer le téléchargement des données
+     *
+     */
     public void popup_valider(View view){
         final ICSAsyncTask xat = new ICSAsyncTask(_datasource, this);
         String url = "http://celcat.univ-angers.fr/ics_etu.php?url=publi/etu/" + _groupe.get_lien();
@@ -177,25 +183,4 @@ public class FormationActivity extends AppCompatActivity implements ICSAsyncTask
         _datasource.creationUtilisateur(_groupe.get_lien(), "");
     }
 
-    private void configureAlarmManager(){
-        Intent alarmIntent = new Intent(context, MyAlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-    }
-
-    private void startAlarm() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE,53);
-
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Toast.makeText(this, "Alarm set !", Toast.LENGTH_LONG).show();
-    }
-
-    private void stopAlarm() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
-        Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
-    }
 }

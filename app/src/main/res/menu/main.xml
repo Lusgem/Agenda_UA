@@ -23,7 +23,7 @@
             app:showAsAction="ifRoom"/>
     </group>
     <group>
-        <item android:id="@+id/action_parametre"
+        <item android:id="@+id/action_formation"
             android:title="Choix de la formation"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>

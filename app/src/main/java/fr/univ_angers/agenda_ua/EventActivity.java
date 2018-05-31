@@ -12,6 +12,10 @@ import org.w3c.dom.Text;
 
 import fr.univ_angers.agenda_ua.classAbstraite.WeekView;
 
+/**
+ * Cette activité sert à afficher les détails d'un évenement unique. Elle est appelée lorsque
+ * l'utilisateur clique sur un évenement dans la vue principale
+ */
 public class EventActivity extends AppCompatActivity {
 
     private TextView _tv_resume;

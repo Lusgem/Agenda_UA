@@ -3,7 +3,7 @@ package fr.univ_angers.agenda_ua.evenement;
 import java.util.Date;
 
 /**
- * Created by Thibault Condemine on 14/05/2018.
+ * Cette classe sert à stocker les évenements venant de l'agenda d'Android
  */
 public class EvenementExterieur {
     private String _titre;
